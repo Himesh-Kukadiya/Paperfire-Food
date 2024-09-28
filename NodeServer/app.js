@@ -24,6 +24,9 @@ app.use(express.json());
 // Middleware to handle CORS...
 app.use(cors());
 
+// allow to access image files
+app.use(express.static('Public'))
+
 // routings...
 const router = require('./RouteManager/Router');
 app.use('/api', router);

@@ -1,8 +1,15 @@
-import { useState } from 'react';
-import { productList } from '../Script/index';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Product = () => {
     const [visibleProducts, setVisibleProducts] = useState(6);
+    const [productList, setProductList] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:7575/api/getProducts')
+        .then(response => setProductList(response.data))
+        .catch(error => console.error(error));
+    }, []);
 
     const loadMoreProducts = () => {
         setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 6);
@@ -15,7 +22,7 @@ const Product = () => {
                 <div className="product-grid">
                     {productList.slice(0, visibleProducts).map((product) => (
                         <div className="product-card" key={product.id}>
-                            <img src={product.image} alt={product.name} />
+                            <img src='http://localhost:7575/Images/Products/product1.jpg' alt={product.name} />
                             <h3>{product.name}</h3>
                             <p className="description">{product.des}</p>
                             <p className="price">₹{product.price} {product.time}</p>

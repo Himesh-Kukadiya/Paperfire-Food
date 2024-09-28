@@ -1,0 +1,362 @@
+[
+    {
+        "id": 1,
+        "name": "Commercial Oven",
+        "des": "High-quality commercial oven for your kitchen needs.",
+        "price": 50000,
+        "rant": 500,
+        "time": " / day",
+        "image": "product1"
+    },
+    {
+        "id": 2,
+        "name": "Refrigeration Unit",
+        "des": "Energy-efficient refrigeration unit to keep your food fresh.",
+        "price": 70000,
+        "rant": 700,
+        "time": " / day",
+        "image": "product2"
+    },
+    {
+        "id": 3,
+        "name": "Dishwasher",
+        "des": "High-capacity dishwasher for busy kitchens.",
+        "price": 69999,
+        "rant": 699,
+        "time": " / day",
+        "image": "product3"
+    },
+    {
+        "id": 4,
+        "name": "Food Processor",
+        "des": "Multi-functional food processor for easy food preparation.",
+        "price": 12000,
+        "rant": 60,
+        "time": " / hour",
+        "image": "product4"
+    },
+    {
+        "id": 5,
+        "name": "Mixer Grinder",
+        "des": "Powerful mixer grinder for all your mixing and grinding needs.",
+        "price": 8000,
+        "rant": 50,
+        "time": " / hour",
+        "image": "product5"
+    },
+    {
+        "id": 6,
+        "name": "Industrial Blender",
+        "des": "Heavy-duty blender for large batch blending.",
+        "price": 45000,
+        "rant": 400,
+        "time": " / day",
+        "image": "product6"
+    },
+    {
+        "id": 7,
+        "name": "Pizza Oven",
+        "des": "Perfect for baking pizzas with consistent heat.",
+        "price": 60000,
+        "rant": 550,
+        "time": " / day",
+        "image": "product7"
+    },
+    {
+        "id": 8,
+        "name": "Ice Cream Maker",
+        "des": "Produce soft serve or hard ice cream with ease.",
+        "price": 30000,
+        "rant": 300,
+        "time": " / day",
+        "image": "product8"
+    },
+    {
+        "id": 9,
+        "name": "Coffee Machine",
+        "des": "High-quality espresso and coffee machine.",
+        "price": 15000,
+        "rant": 150,
+        "time": " / hour",
+        "image": "product9"
+    },
+    {
+        "id": 10,
+        "name": "Juicer",
+        "des": "Commercial juicer for fresh juices.",
+        "price": 10000,
+        "rant": 80,
+        "time": " / hour",
+        "image": "product10"
+    },
+    {
+        "id": 11,
+        "name": "Deep Fryer",
+        "des": "Efficient deep fryer for crispy results.",
+        "price": 25000,
+        "rant": 250,
+        "time": " / day",
+        "image": "product11"
+    },
+    {
+        "id": 12,
+        "name": "Grill Station",
+        "des": "Professional grill station for barbecues.",
+        "price": 40000,
+        "rant": 400,
+        "time": " / day",
+        "image": "product12"
+    },
+    {
+        "id": 13,
+        "name": "Waffle Maker",
+        "des": "Create perfect waffles every time.",
+        "price": 9000,
+        "rant": 70,
+        "time": " / hour",
+        "image": "product13"
+    },
+    {
+        "id": 14,
+        "name": "Food Warmer",
+        "des": "Keep food warm and ready to serve.",
+        "price": 15000,
+        "rant": 150,
+        "time": " / day",
+        "image": "product14"
+    },
+    {
+        "id": 15,
+        "name": "Electric Kettle",
+        "des": "Quick-boiling electric kettle.",
+        "price": 5000,
+        "rant": 30,
+        "time": " / hour",
+        "image": "product15"
+    },
+    {
+        "id": 16,
+        "name": "Soup Kettle",
+        "des": "Serve large quantities of soup effortlessly.",
+        "price": 12000,
+        "rant": 120,
+        "time": " / day",
+        "image": "product16"
+    },
+    {
+        "id": 17,
+        "name": "Meat Slicer",
+        "des": "Precision slicing for meats and cheeses.",
+        "price": 35000,
+        "rant": 350,
+        "time": " / day",
+        "image": "product17"
+    },
+    {
+        "id": 18,
+        "name": "Charcoal Grill",
+        "des": "Traditional charcoal grill for smoky flavor.",
+        "price": 20000,
+        "rant": 200,
+        "time": " / day",
+        "image": "product18"
+    },
+    {
+        "id": 19,
+        "name": "Convection Oven",
+        "des": "Fast and efficient convection oven.",
+        "price": 45000,
+        "rant": 450,
+        "time": " / day",
+        "image": "product19"
+    },
+    {
+        "id": 20,
+        "name": "Pasta Cooker",
+        "des": "Cook perfect pasta in bulk.",
+        "price": 22000,
+        "rant": 220,
+        "time": " / day",
+        "image": "product20"
+    },
+    {
+        "id": 21,
+        "name": "Salamander Grill",
+        "des": "High-temperature grill for quick heating.",
+        "price": 50000,
+        "rant": 500,
+        "time": " / day",
+        "image": "product21"
+    },
+    {
+        "id": 22,
+        "name": "Tandoor Oven",
+        "des": "Traditional tandoor oven for authentic dishes.",
+        "price": 55000,
+        "rant": 550,
+        "time": " / day",
+        "image": "product22"
+    },
+    {
+        "id": 23,
+        "name": "Rotisserie",
+        "des": "Perfect for roasting large cuts of meat.",
+        "price": 60000,
+        "rant": 600,
+        "time": " / day",
+        "image": "product23"
+    },
+    {
+        "id": 24,
+        "name": "Pancake Griddle",
+        "des": "Non-stick griddle for perfect pancakes.",
+        "price": 10000,
+        "rant": 80,
+        "time": " / hour",
+        "image": "product24"
+    },
+    {
+        "id": 25,
+        "name": "Bain-Marie",
+        "des": "Keep food at the perfect serving temperature.",
+        "price": 35000,
+        "rant": 350,
+        "time": " / day",
+        "image": "product25"
+    },
+    {
+        "id": 26,
+        "name": "Hot Dog Roller",
+        "des": "Roller grill for perfectly cooked hot dogs.",
+        "price": 8000,
+        "rant": 60,
+        "time": " / hour",
+        "image": "product26"
+    },
+    {
+        "id": 27,
+        "name": "Rice Cooker",
+        "des": "Large-capacity rice cooker.",
+        "price": 20000,
+        "rant": 200,
+        "time": " / day",
+        "image": "product27"
+    },
+    {
+        "id": 28,
+        "name": "Tortilla Press",
+        "des": "Easily press tortillas with consistent thickness.",
+        "price": 7000,
+        "rant": 50,
+        "time": " / hour",
+        "image": "product28"
+    },
+    {
+        "id": 29,
+        "name": "Blender",
+        "des": "Commercial blender for smoothies and shakes.",
+        "price": 15000,
+        "rant": 100,
+        "time": " / hour",
+        "image": "product29"
+    },
+    {
+        "id": 30,
+        "name": "Milkshake Maker",
+        "des": "High-speed milkshake maker for smooth results.",
+        "price": 18000,
+        "rant": 150,
+        "time": " / hour",
+        "image": "product30"
+    },
+    {
+        "id": 31,
+        "name": "Dough Sheeter",
+        "des": "Roll out dough evenly and quickly.",
+        "price": 45000,
+        "rant": 400,
+        "time": " / day",
+        "image": "product31"
+    },
+    {
+        "id": 32,
+        "name": "Popcorn Machine",
+        "des": "Perfect popcorn every time.",
+        "price": 10000,
+        "rant": 100,
+        "time": " / hour",
+        "image": "product32"
+    },
+    {
+        "id": 33,
+        "name": "Cotton Candy Maker",
+        "des": "Make fluffy cotton candy in minutes.",
+        "price": 12000,
+        "rant": 120,
+        "time": " / hour",
+        "image": "product33"
+    },
+    {
+        "id": 34,
+        "name": "Chocolate Fountain",
+        "des": "Perfect for dessert bars and catering.",
+        "price": 15000,
+        "rant": 150,
+        "time": " / hour",
+        "image": "product34"
+    },
+    {
+        "id": 35,
+        "name": "Espresso Machine",
+        "des": "Brew the perfect espresso every time.",
+        "price": 30000,
+        "rant": 300,
+        "time": " / day",
+        "image": "product35"
+    },
+    {
+        "id": 36,
+        "name": "Slushy Machine",
+        "des": "Create refreshing slushies in bulk.",
+        "price": 25000,
+        "rant": 250,
+        "time": " / day",
+        "image": "product36"
+    },
+    {
+        "id": 37,
+        "name": "Hot Chocolate Dispenser",
+        "des": "Serve hot chocolate in large quantities.",
+        "price": 20000,
+        "rant": 200,
+        "time": " / day",
+        "image": "product37"
+    },
+    {
+        "id": 38,
+        "name": "Frozen Yogurt Machine",
+        "des": "Create delicious frozen yogurt.",
+        "price": 45000,
+        "rant": 450,
+        "time": " / day",
+        "image": "product38"
+    },
+    {
+        "id": 39,
+        "name": "Soft Serve Ice Cream Machine",
+        "des": "Perfect for serving soft serve ice cream.",
+        "price": 55000,
+        "rant": 550,
+        "time": " / day",
+        "image": "product39"
+    },
+    {
+        "id": 40,
+        "name": "Snow Cone Machine",
+        "des": "Create refreshing snow cones with ease.",
+        "price": 12000,
+        "rant": 120,
+        "time": " / hour",
+        "image": "product40"
+    }
+]
