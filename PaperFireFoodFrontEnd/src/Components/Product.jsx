@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Product = () => {
-    const [visibleProducts, setVisibleProducts] = useState(6);
+    const loadmoreItems = 9;
+    const [visibleProducts, setVisibleProducts] = useState(loadmoreItems);
     const [productList, setProductList] = useState([]);
 
     useEffect(() => {
@@ -12,7 +13,7 @@ const Product = () => {
     }, []);
 
     const loadMoreProducts = () => {
-        setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 6);
+        setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + loadmoreItems);
     };
 
     return (
@@ -22,10 +23,10 @@ const Product = () => {
                 <div className="product-grid">
                     {productList.slice(0, visibleProducts).map((product) => (
                         <div className="product-card" key={product.id}>
-                            <img src='http://localhost:7575/Images/Products/product1.jpg' alt={product.name} />
+                            <img src={`http://localhost:7575/Images/Products/${product.image}`} style={{maxHeight: 200}} alt={product.name} />
                             <h3>{product.name}</h3>
                             <p className="description">{product.des}</p>
-                            <p className="price">₹{product.price} {product.time}</p>
+                            <p className="price">₹ {product.price} {product.time}</p>
                             <a href="#" className="btn">Rent Now</a>
                         </div>
                     ))}
@@ -38,6 +39,6 @@ const Product = () => {
             </div>
         </section>
     );
-};
+}; 
 
 export default Product;

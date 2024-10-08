@@ -1,8 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { testimonialsLsit } from "../Script/index";
+import axios from "axios";
+
+// import { testimonialsLsit } from "../Script/index";
 
 const Testimonials = () => {
+    const [testimonialsLsit, setTestimonialsList] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:7575/api/getTestimonials")
+        .then((response) => setTestimonialsList(response.data))
+        .catch((error) => console.error(`error while fetching testimonials: ${error}`))
+    }, [])
     // Split testimonials into chunks
     const chunkTestimonials = (array, chunkSize) => {
         const result = [];
@@ -38,14 +47,18 @@ const Testimonials = () => {
                             </div>
                         ))}
                     </div>
-                    <a className="carousel-control-prev" href="#testimonialCarousel" role="button" data-slide="prev">
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="sr-only">Previous</span>
-                    </a>
-                    <a className="carousel-control-next" href="#testimonialCarousel" role="button" data-slide="next">
-                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span className="sr-only">Next</span>
-                    </a>
+                    <div className='carousel-control-prev-box'>
+                        <a className="carousel-control-prev" href="#testimonialCarousel" role="button" data-slide="prev">
+                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span className="sr-only">Previous</span>
+                        </a>
+                    </div>
+                    <div className="carousel-control-next-box">
+                        <a className="carousel-control-next" href="#testimonialCarousel" role="button" data-slide="next">
+                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span className="sr-only">Next</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -55,7 +68,7 @@ const Testimonials = () => {
 const TruncatedText = ({ text }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const charLimit = 50; 
+    const charLimit = 60; 
     const truncateText = (text, charLimit) => {
         if (text.length > charLimit) {
             return {
@@ -71,11 +84,16 @@ const TruncatedText = ({ text }) => {
 
     const { truncated, text: truncatedText } = truncateText(text, charLimit);
 
+    const handleReadMoreClick = (e) => {
+        e.stopPropagation(); 
+        setIsExpanded(true);
+    };
+
     return (
         <p className="testimonial-text">
             {isExpanded || !truncated ? text : truncatedText}
             {truncated && !isExpanded && (
-                <span className="read-more cursor-pointer text-primary" onClick={() => setIsExpanded(true)}>
+                <span className="read-more cursor-pointer text-primary" onClick={handleReadMoreClick}>
                     {' '}read more
                 </span>
             )}

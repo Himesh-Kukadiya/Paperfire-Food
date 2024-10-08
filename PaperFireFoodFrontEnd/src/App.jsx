@@ -6,7 +6,7 @@ import Header from './Components/Header';
 import Home from './Components/Home';
 import About from './Components/About';
 import Product from './Components/Product';
-import Galary from './Components/Galary';
+import Galary from './Components/Gallary';
 import Testimonials from './Components/Testimonials';
 import Contact from './Components/Contact';
 import Footer from './Components/Footer';
