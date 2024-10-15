@@ -12,6 +12,7 @@ const Testimonials = () => {
         .then((response) => setTestimonialsList(response.data))
         .catch((error) => console.error(`error while fetching testimonials: ${error}`))
     }, [])
+    
     // Split testimonials into chunks
     const chunkTestimonials = (array, chunkSize) => {
         const result = [];

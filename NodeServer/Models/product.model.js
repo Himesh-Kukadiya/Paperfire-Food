@@ -28,8 +28,18 @@ const productsModel = mongoose.model('Products', {
         type: String,
         required: true,
     },
+    quantity : {
+        type: Number,
+        required: true,
+        default: 1
+    },
+    available : {
+        type: Number,
+        required: true,
+        default: 1
+    },
     image: {
-        type: String,
+        type: Array,
         required: true
     }
 }, 'Products')

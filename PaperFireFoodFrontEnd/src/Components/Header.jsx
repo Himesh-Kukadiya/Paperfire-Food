@@ -1,6 +1,16 @@
 import { menuItemsList } from '../Script/index';
 
 const Header = () => {
+    const scrollToTop = (sectionName) => {
+        const element = document.getElementById(sectionName);
+        if (element) {
+            window.scrollTo({
+                top: element.offsetTop,  
+                behavior: 'smooth',
+            });
+        }
+    };
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark sticky-top">
             <a className="navbar-brand" href="#">Paperfire Food</a>
@@ -12,7 +22,7 @@ const Header = () => {
                 <ul className="navbar-nav ml-auto">
                     {menuItemsList.map(item => (
                         <li className="nav-item" key={item.id}>
-                            <a className="nav-link" href={item.link}>{item.title}</a>
+                            <a className="nav-link" onClick={scrollToTop} href={item.link}>{item.title}</a>
                         </li>
                     ))}
                 </ul>

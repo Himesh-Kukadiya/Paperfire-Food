@@ -11,6 +11,10 @@ router
     .route("/getProducts")
     .get(productController.getProducts);
 
+router 
+    .route("/getProductDetails/:P_ID")
+    .get(productController.getProductDetails);
+
 const galleryController = require("../Controllers/gallary.controller");
 router 
     .route("/getGallery")
@@ -20,6 +24,5 @@ const testimonialsController = require("../Controllers/testimonials.controller")
 router
     .route("/getTestimonials")
     .get(testimonialsController.getTestimonials);
-
 
 module.exports = router;
