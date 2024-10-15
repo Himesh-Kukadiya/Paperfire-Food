@@ -1,4 +1,5 @@
 const productsModal = require("../Models/product.model")
+const rentModal = require("../Models/rent.model");
 
 const getFormateDate = (today) => {
     return today.toISOString().split('T')[0];

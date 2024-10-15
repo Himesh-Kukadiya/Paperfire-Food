@@ -110,7 +110,7 @@ const ProductDetails = () => {
 
     return (
         <section id="product-details">
-            <div className="container-fluid my-5">
+            <div className="container my-5">
                 <div className="row">
                     {/* Image Gallery */}
                     <div className="col-lg-7 col-md-12 position-relative">
