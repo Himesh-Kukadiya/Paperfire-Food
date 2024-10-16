@@ -643,6 +643,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1); 
     cursor: pointer;
 }
+
 .quantity-section button {
     background-color: #E0E0E0;
     color: #111;
