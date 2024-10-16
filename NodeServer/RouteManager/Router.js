@@ -15,6 +15,15 @@ router
     .route("/getProductDetails/:P_ID")
     .get(productController.getProductDetails);
 
+const paymentController = require("../Controllers/payment.controller");
+router 
+    .route("/getOptions")
+    .post(paymentController.getOptions)
+
+router
+    .route("/paymentVarification/:P_ID")
+    .post(paymentController.paymentVarification);
+
 const galleryController = require("../Controllers/gallary.controller");
 router 
     .route("/getGallery")

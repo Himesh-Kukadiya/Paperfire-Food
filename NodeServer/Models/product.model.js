@@ -20,7 +20,7 @@ const productsModel = mongoose.model('Products', {
         type: Number,
         required: true
     },
-    rant: {
+    rent: {
         type: Number,
         required: true
     },
