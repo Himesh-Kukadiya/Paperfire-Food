@@ -1,9 +1,7 @@
 const productsModal = require("../Models/product.model")
 const rentModal = require("../Models/rent.model");
 
-const getFormateDate = (today) => {
-    return today.toISOString().split('T')[0];
-}
+const getFormateDate = require("../Functions/getFormateDate");
 
 const getProducts = (req, res) => {
     productsModal.find()
@@ -25,8 +23,15 @@ const getProductDetails = (req, res) => {
             })
             res.status(200).json({product, rent: newRent}); // if rent is not empty then send product details with rent details.
         })
-        .catch((error) => res.status(500).json({message: "Error fetching rent details", error}))})
-    .catch((error) => res.status(500).json({message: "Error fetching product details", error}))
+        .catch((error) => {
+            console.log(error); 
+            res.status(500).json({message: "Error fetching rent details", error})
+        })
+    })
+    .catch((error) => {
+        console.log(error);
+        res.status(500).json({message: "Error fetching product details", error})
+    })
 };
 
 

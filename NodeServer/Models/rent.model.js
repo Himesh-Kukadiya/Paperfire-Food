@@ -34,7 +34,31 @@ const rentModel = mongoose.model('Rents', {
     total: {
         type: Number,
         required: true
-    }
+    },
+    mobile: { 
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    city: {
+        type: String,
+        required: true
+    },
+    state: {
+        type: String,
+        required: true
+    },
+    zip: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        default: 'Pending'
+    },
 }, 'Rents');
 
 module.exports = rentModel;

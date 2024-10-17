@@ -1,6 +1,12 @@
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
+
 const rentModal = require('../Models/rent.model');
+const paymentModal = require('../Models/payment.model');
+const productModal = require("../Models/product.model");
+
+const getFormateDate = require('../Functions/getFormateDate');
+const sendMail = require('../Functions/sendMail');
 
 // initialize razorpay instance
 const razorpay = new Razorpay({
@@ -9,7 +15,7 @@ const razorpay = new Razorpay({
 });
 
 // Create Razorpay order and return options
-const getOptions = async (req, res) => {a
+const getOptions = async (req, res) => {
     try {
         const { total } = req.body;
 
@@ -71,7 +77,8 @@ const paymentVarification = (req, res) => {
     if (generated_signature === razorpay_signature) {
         console.log("Payment verified successfully.");
         const uId = "670e12a0943359360b1789e1";
-        const newRent = {
+        
+        rentModal.create({
             pId: p_id,
             uId: uId,
             fromDate: data.fromDate,
@@ -79,17 +86,54 @@ const paymentVarification = (req, res) => {
             quantity: data.quantity,
             rent: data.rent,
             days: data.days,
-            total: data.total
-        }
-        
-        rentModal.create(newRent)
-        .then((response)=> {
-            console.log(response)
+            total: data.total,
+            mobile: data.mobile,
+            address: data.address,
+            city: data.city,
+            state: data.state,
+            zip: data.zip
+        })
+        .then((rent)=> {
+            if(!rent) return res.status(500).json({message: "Rent Creation Failed"})
+
+            paymentModal.create({
+                rId: rent._id,
+                amount: rent.total,
+                payment_id: razorpay_payment_id,
+                order_id: razorpay_order_id,
+                signature: razorpay_signature,
+                paymentStatus: "paid",
+                paymentDate: getFormateDate(new Date()),
+                paymentMethod: "razorpay"
+            })
+            .then((payment)=> {
+                if(!payment) return res.status(500).json({message: "Payment Creation Failed"})
+                
+                productModal.findById(rent.pId)
+                .then((product) => {
+                    const subject = `PaperFifeFood product on rent conformation`;
+                    const message = `Congratulations ${data.name},\nYour rent booking has been successfull... \nYour rent booking reference is ${rent._id} \nYou get ${product.name} on rent for ${product.rent}${product.time}. \nYour rent time is ${getFormateDate(rent.fromDate)} to ${getFormateDate(rent.toDate)}. \nYour Mobile Number is ${rent.mobileNumber} \nYour address is ${rent.address}, ${rent.city}, ${rent.state}, ${rent.zip}. \nYou pay total ${rent.total} and your payment id is ${payment._id}, \n\nDo not delete this mail for your security...`;
+                    const to = data.email;
+
+                    sendMail(subject, message, to)
+                        res.status(200).json({ message: "Payment and Rent Created Successfully"});
+                })
+                .catch((err) => {
+                    console.log("error while finding product", err)
+                    res.status(500).json({message: "Error while finding product", err});
+                })
+            })
+            .catch((error)=> { 
+                console.log("error while creating payment");
+                res.status(500).json({message: "Error while creating payment", error});
+            });
         })
         .catch((error) => {
             console.log("error while creating new rent")
             res.status(500).json({message: "Error while creating Rent", error})
         })
+        // paymentModal.create({})
+
     } else {
         console.error("Invalid payment signature.");
         return res.status(400).json({ message: 'Invalid payment signature.' });
