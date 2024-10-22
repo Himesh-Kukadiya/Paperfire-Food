@@ -111,8 +111,22 @@ const paymentVarification = (req, res) => {
                 
                 productModal.findById(rent.pId)
                 .then((product) => {
-                    const subject = `PaperFifeFood product on rent conformation`;
-                    const message = `Congratulations ${data.name},\nYour rent booking has been successfull... \nYour rent booking reference is ${rent._id} \nYou get ${product.name} on rent for ${product.rent}${product.time}. \nYour rent time is ${getFormateDate(rent.fromDate)} to ${getFormateDate(rent.toDate)}. \nYour Mobile Number is ${rent.mobileNumber} \nYour address is ${rent.address}, ${rent.city}, ${rent.state}, ${rent.zip}. \nYou pay total ${rent.total} and your payment id is ${payment._id}, \n\nDo not delete this mail for your security...`;
+                    const subject = `PaperFireFood Rent Confirmation: Your Booking is Successful`;
+                    const message = `Dear ${data.name},\n\n
+We are excited to confirm your recent rent booking with PaperFireFood! Below are the details of your order:\n
+- Booking Reference: ${rent._id}
+- Product Rented: ${product.name} (${product.rent}${product.time})
+- Rental Period: From ${getFormateDate(rent.fromDate)} to ${getFormateDate(rent.toDate)}
+- Quantity: ${rent.quantity}
+- Total Amount Paid: ₹${rent.total}
+- Payment ID: ${payment._id}\n
+Delivery Information:\n
+- Mobile Number: ${rent.mobile}
+- Address: ${rent.address}, ${rent.city}, ${rent.state} - ${rent.zip}\n\n
+Thank you for choosing PaperFireFood for your restaurant equipment needs. Should you have any questions or require assistance, feel free to contact us. Drop mail on ${process.env.MAIL_ADDRESS}\n\n
+Best regards,\n
+The PaperFireFood Team\n\n
+*Please keep this email for your records. Do not delete it for future reference.*`;
                     const to = data.email;
 
                     sendMail(subject, message, to)

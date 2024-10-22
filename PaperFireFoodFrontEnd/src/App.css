@@ -658,6 +658,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     transform: scale(1.1);
 }
 
+/* bootstrap modal design */
+.modal-dialog {
+    box-shadow: 1px 1px 10px gray;
+}
+
+.modal-content {
+    background-color: #000;
+    color: #FFF; 
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 35px;
+    cursor: pointer;
+    color: #fff;
+}
+
+/* responsive style... */
 @media (max-width: 768px) {
     .small-images .small-image {
         width: 60px;

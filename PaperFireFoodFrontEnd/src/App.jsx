@@ -14,6 +14,7 @@ import Testimonials from './Components/Testimonials';
 import Contact from './Components/Contact';
 import Footer from './Components/Footer';
 import ProductDetails from './Components/ProductDetails';
+import LoginModal from './Components/BootstrapModal/Login.Modal';
 
 function App() {
   const [scrollY, setScrollY] = useState(0);
@@ -26,7 +27,7 @@ function App() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
@@ -40,37 +41,41 @@ function App() {
 
   const scrollPercentage = (scrollY / scrollHeight) * 100;
 
+  const homePage = <>
+    <Home />
+    <About />
+    <Service />
+    <Product title={"Our Equipment for Rent"} />
+    <Galary />
+    <Testimonials />
+    <Contact />
+  </>
+
   return (
     <>
       <Header />
       <BrowserRouter>
         <Routes>
-          {/* LANDING PAGE */}
-          <Route path='/' element={
-            <>
-              <Home />
-              <About />
-              <Service />
-              <Product title={"Our Equipment for Rent"} />
-              <Galary />
-              <Testimonials />
-              <Contact />
-            </>
-          } />
 
-          {/* PRODUCT DETAILS PAGE */}
-          <Route path='/ProductDetails/:P_ID' element={
-            <>
-              <ProductDetails />
-            </>
-          } />
+          {/* LANDING PAGE */}
+          <Route path="/" element={homePage} />
+          <Route path="/:userId" element={homePage} />
+
+          {/* PRODUCT DETAILS PAGE WITHOUT USER */}
+          <Route path="/productDetails/:P_ID" element={<ProductDetails />} />
+          <Route path="/:userId/productDetails/:P_ID" element={<ProductDetails />} />
         </Routes>
       </BrowserRouter>
       <Footer />
 
+      <LoginModal />
+
       {/* Scroll to Top Button */}
       <div className={`scroll-to-top ${scrollY > 200 ? 'visible' : ''}`} onClick={scrollToTop}>
-        <div className="circle" style={{ borderColor: `rgba(255, 255, 255, ${scrollPercentage / 100})` }}>
+        <div
+          className="circle"
+          style={{ borderColor: `rgba(255, 255, 255, ${scrollPercentage / 100})` }}
+        >
           <div className="arrow">&#x25B2;</div>
         </div>
       </div>

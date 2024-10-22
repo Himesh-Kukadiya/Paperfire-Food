@@ -1,11 +1,12 @@
 import { menuItemsList } from '../Script/index';
 
 const Header = () => {
+    const userData = JSON.parse(localStorage.getItem('userDataPFF'))
     const scrollToTop = (sectionName) => {
         const element = document.getElementById(sectionName);
         if (element) {
             window.scrollTo({
-                top: element.offsetTop,  
+                top: element.offsetTop,
                 behavior: 'smooth',
             });
         }
@@ -22,9 +23,20 @@ const Header = () => {
                 <ul className="navbar-nav ml-auto">
                     {menuItemsList.map(item => (
                         <li className="nav-item" key={item.id}>
-                            <a className="nav-link" onClick={scrollToTop} href={item.link}>{item.title}</a>
+                            <a className="nav-link" onClick={scrollToTop} href={userData ? `/${userData._id}${item.link}`: item.link}>{item.title}</a>
                         </li>
                     ))}
+                    <li className='nav-item'>
+                        {userData
+                        ? <>
+                            <button className='btn btn-success' style={{paddingTop: "0px", paddingBottom: "0px", height: "45px"}}> <img className='nav-link d-inline rounded-circle shadow-danger' src={`http://localhost:7575/Images/Users/default1.png`} style={{ maxHeight: '45px', width: '45px', objectFit: 'cover' }} /> {userData.name}</button> 
+                        </>
+                        : (<>
+                                <a href="#" className='btn btn-danger px-4 mr-2' data-toggle="modal" data-target="#LoginModal">Login</a>
+                                <a href="#" className='btn btn-danger px-4' data-toggle="modal" data-target="#RegistrationModal">Register</a>
+                        </>)}
+
+                    </li>
                 </ul>
             </div>
         </nav>

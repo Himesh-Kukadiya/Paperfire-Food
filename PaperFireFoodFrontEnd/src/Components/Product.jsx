@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const Product = ({ title }) => {
     const loadmoreItems = 9;
+    const { userId } = useParams() || "";
+
     const [visibleProducts, setVisibleProducts] = useState(loadmoreItems);
     const [productList, setProductList] = useState([]);
-
-    
 
     useEffect(() => {
         axios.get('http://localhost:7575/api/getProducts')
@@ -32,8 +32,8 @@ const Product = ({ title }) => {
                             <img src={`http://localhost:7575/Images/Products/${product.image[0]}`} style={{maxHeight: 200}} alt={product.name} />
                             <h3>{product.name}</h3>
                             <p className="description">{product.des}</p>
-                            <p className="price">₹ {product.rant} {product.time}</p>
-                            <Link to={`/ProductDetails/${product.id}`} className="btn">Rent Now</Link>
+                            <p className="price">₹ {product.rent} {product.time}</p>
+                            <Link to={userId ? `/${userId}/ProductDetails/${product.id}` : `/ProductDetails/${product.id}`} className="btn">Rent Now</Link>
                         </div>
                     ))}
                 </div>

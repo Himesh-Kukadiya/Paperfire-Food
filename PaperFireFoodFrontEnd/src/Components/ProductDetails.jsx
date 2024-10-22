@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 
 import axios from 'axios';
 import Product from './Product';
+import AddressModals from './BootstrapModal/Address.Modals';
+
+import {validateEmail, validateMobile, validateZip} from "../Script/index";
 
 const ProductDetails = () => {
     const { P_ID } = useParams();
@@ -185,31 +188,31 @@ const ProductDetails = () => {
 
             switch (tag) {
                 case 'name':
-                    if (value.length <= 2) setFormError({ ...formError, name: "*" })
+                    if (value.length <= 2) setFormError({ ...formError, name: "Name must contains atleast 2 characters"})
                     else setFormError({ ...formError, name: "success" })
                     break;
                 case 'email':
-                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) setFormError({ ...formError, email: "*" })
+                    if (validateEmail(value)) setFormError({ ...formError, email: "Invalid email address" })
                     else setFormError({ ...formError, email: "success" })
                     break;
                 case 'mobile':
-                    if (!/^[6-9]\d{9}$/.test(value)) setFormError({ ...formError, mobile: "*" })
+                    if (validateMobile(value)) setFormError({ ...formError, mobile: "Invalid mobile pattern" })
                     else setFormError({ ...formError, mobile: "success" })
                     break;
                 case 'address':
-                    if (value.length <= 5) setFormError({ ...formError, address: "*" })
+                    if (value.length <= 5) setFormError({ ...formError, address: "Address must contains atleast 5 characters" })
                     else setFormError({ ...formError, address: "success" })
                     break;
                 case 'city':
-                    if (value.length <= 2) setFormError({ ...formError, city: "*" })
+                    if (value.length <= 2) setFormError({ ...formError, city: "City must contains atleast 2 characters" })
                     else setFormError({ ...formError, city: "success" })
                     break;
                 case 'state':
-                    if (value.length <= 2) setFormError({ ...formError, state: "*" })
+                    if (value.length <= 2) setFormError({ ...formError, state: "State must contains atleast 2 characters" })
                     else setFormError({ ...formError, state: "success" })
                     break;
                 case 'zip':
-                    if (!/^\d{6}$/.test(value)) setFormError({ ...formError, zip: "*" })
+                    if (validateZip(value)) setFormError({ ...formError, zip: "invalid zip formate" })
                     else setFormError({ ...formError, zip: "success" })
                     break;
                 default:
@@ -313,7 +316,7 @@ const ProductDetails = () => {
                             <div className="action-buttons mb-3">
                                 <button className="btn btn-secondary me-2"
                                     onClick={() => bookProduct}
-                                    disabled={quantityLimitError || quantity === 0 || quantity > available}
+                                    disabled={quantityLimitError || quantity === 0 || quantity > available || fromDate < getDate(deliveryDayse) || toDate < getDate(deliveryDayse)}
                                     data-toggle="modal" data-target="#addressModal"
                                 > Rent Now </button>
                                 <button className="btn btn-secondary"
@@ -328,118 +331,7 @@ const ProductDetails = () => {
             </section>
 
             {/* Modal for address details */}
-            <div className="modal fade" id="addressModal" tabIndex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
-                <div className="modal-dialog" style={{ boxShadow: "1px 1px 10px gray" }}>
-                    <div className="modal-content" style={{ backgroundColor: 'black', color: 'white' }}>
-                        <form onSubmit={bookProduct} method='post'>
-                            <div className="modal-header" style={{ backgroundColor: 'black' }}>
-                                <h3 className="modal-title" id="addressModalLabel">Address Information</h3>
-                                <button type="button" id='btn-close' className="close" data-dismiss="modal" aria-label="Close" style={{ color: 'white' }}>
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <div className="row mb-3">
-                                    <div className="col-3">
-                                        <label>Name</label>
-                                    </div>
-                                    <div className="col-7">
-                                        <input type="text" name='name' value={formData.name} onChange={handleFormData} className='form-control bg-transparent' />
-                                    </div>
-                                    <div className="col-1 mt-2">
-                                        {formError.name === "*" ?
-                                            <span className="material-icons text-danger">cancel</span> :
-                                            formError.name === "success" ? <span className="material-icons text-success">check_circle</span> : null}
-                                    </div>
-                                </div>
-                                <div className="row mb-3">
-                                    <div className="col-3">
-                                        <label>Email</label>
-                                    </div>
-                                    <div className="col-7">
-                                        <input type="email" name='email' value={formData.email} onChange={handleFormData} className='form-control bg-transparent' />
-                                    </div>
-                                    <div className="col-1 mt-2">
-                                        {formError.email === "*" ?
-                                            <span className="material-icons text-danger">cancel</span> :
-                                            formError.email === "success" ? <span className="material-icons text-success">check_circle</span> : null}
-                                    </div>
-                                </div>
-                                <div className="row mb-3">
-                                    <div className="col-3">
-                                        <label>Mobile</label>
-                                    </div>
-                                    <div className="col-7">
-                                        <input type="number" name='mobile' value={formData.mobile} onChange={handleFormData} className='form-control bg-transparent' />
-                                    </div>
-                                    <div className="col-1 mt-2">
-                                        {formError.mobile === "*" ?
-                                            <span className="material-icons text-danger">cancel</span> :
-                                            formError.mobile === "success" ? <span className="material-icons text-success">check_circle</span> : null}
-                                    </div>
-                                </div>
-                                <div className="row mb-3">
-                                    <div className="col-3">
-                                        <label>Address</label>
-                                    </div>
-                                    <div className="col-7">
-                                        <input type="text" name='address' value={formData.address} onChange={handleFormData} className='form-control bg-transparent' />
-                                    </div>
-                                    <div className="col-1 mt-2">
-                                        {formError.address === "*" ?
-                                            <span className="material-icons text-danger">cancel</span> :
-                                            formError.address === "success" ? <span className="material-icons text-success">check_circle</span> : null}
-                                    </div>
-                                </div>
-                                <div className="row mb-3">
-                                    <div className="col-3">
-                                        <label>City</label>
-                                    </div>
-                                    <div className="col-7">
-                                        <input type="text" name='city' value={formData.city} onChange={handleFormData} className='form-control bg-transparent' />
-                                    </div>
-                                    <div className="col-1 mt-2">
-                                        {formError.city === "*" ?
-                                            <span className="material-icons text-danger">cancel</span> :
-                                            formError.city === "success" ? <span className="material-icons text-success">check_circle</span> : null}
-                                    </div>
-                                </div>
-                                <div className="row mb-3">
-                                    <div className="col-3">
-                                        <label>State</label>
-                                    </div>
-                                    <div className="col-7">
-                                        <input type="text" name='state' value={formData.state} onChange={handleFormData} className='form-control bg-transparent' />
-                                    </div>
-                                    <div className="col-1 mt-2">
-                                        {formError.state === "*" ?
-                                            <span className="material-icons text-danger">cancel</span> :
-                                            formError.state === "success" ? <span className="material-icons text-success">check_circle</span> : null}
-                                    </div>
-                                </div>
-                                <div className="row mb-3">
-                                    <div className="col-3">
-                                        <label>Zip</label>
-                                    </div>
-                                    <div className="col-7">
-                                        <input type="number" name='zip' value={formData.zip} onChange={handleFormData} className='form-control bg-transparent' />
-                                    </div>
-                                    <div className="col-1 mt-2">
-                                        {formError.zip === "*" ?
-                                            <span className="material-icons text-danger">cancel</span> :
-                                            formError.zip === "success" ? <span className="material-icons text-success">check_circle</span> : null}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="submit" className="btn btn-secondary" style={{ backgroundColor: "lightgray", color: "black" }}
-                                    disabled={errors}
-                                >Go to payment</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <AddressModals bookProduct={bookProduct} formData={formData} formError={formError} handleFormData={handleFormData} errors={errors} />
         </>
     );
 };
