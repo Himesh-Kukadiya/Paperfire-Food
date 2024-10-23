@@ -24,7 +24,7 @@ const usersModel = mongoose.model('Users', {
     restaurant: {
         type: String,
     },
-    restaurantAddress: {
+    rAddress: {
         type: String,
     },
     imageURL: {

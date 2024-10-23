@@ -10,6 +10,10 @@ router
     .route("/userLogin")
     .post(userController.userLogin)
 
+router
+    .route("/updateProfile")
+    .post(userController.updateProfile)
+
 const servicesController = require("../Controllers/services.controller")
 router
     .route("/getServices")

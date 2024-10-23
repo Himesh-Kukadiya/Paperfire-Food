@@ -41,7 +41,39 @@ const userLogin = (req, res) => {
         })
 }
 
+const updateProfile = (req, res) => {
+    const data = req.body;
+
+    usersModel.findByIdAndUpdate(data._id, data, { new: true })
+    .then((userData) => {
+        res.status(200).json({ message: "profile updated successfully", userData});
+    })
+    .catch((err) => {
+        console.log("Error while updating user profile", err)
+        res.status(500).json({ message: "Error while updating user profile", error: err });
+    });
+}
+
+const profileImageUpload = (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+    }
+    const {userId} = req.body
+    const {filename} = req.file;
+
+    usersModel.findByIdAndUpdate(userId, { imageURL: filename }, { new: true })
+    .then(() => {
+        res.status(200).json({ message: "Profile image uploaded successfully", imageURL: filename });
+    })
+    .catch(err => {
+        console.log("Error while updating user profile image", err)
+        res.status(500).json({ message: "Error while updating user profile image", error: err });
+    })
+};
+
 module.exports = {
     userRegistration,
-    userLogin
+    userLogin,
+    updateProfile,
+    profileImageUpload,
 }

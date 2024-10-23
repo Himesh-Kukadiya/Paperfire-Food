@@ -16,6 +16,7 @@ import Footer from './Components/Footer';
 import ProductDetails from './Components/ProductDetails';
 import LoginModal from './Components/BootstrapModal/Login.Modal';
 import RegistrationModal from './Components/BootstrapModal/Registration.Modal';
+import ProfileModal from './Components/BootstrapModal/Profile.Modal';
 
 function App() {
   const [scrollY, setScrollY] = useState(0);
@@ -60,11 +61,14 @@ function App() {
 
           {/* LANDING PAGE */}
           <Route path="/" element={homePage} />
-          <Route path="/:userId" element={homePage} />
+          <Route path="/:userId" element={<>
+            {homePage} 
+            <ProfileModal />
+            </>} />
 
           {/* PRODUCT DETAILS PAGE WITHOUT USER */}
           <Route path="/productDetails/:P_ID" element={<ProductDetails />} />
-          <Route path="/:userId/productDetails/:P_ID" element={<ProductDetails />} />
+          <Route path="/:userId/productDetails/:P_ID" element={<><ProductDetails /><ProfileModal /></>} />
         </Routes>
       </BrowserRouter>
       <Footer />

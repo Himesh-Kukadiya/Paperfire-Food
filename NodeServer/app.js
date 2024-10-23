@@ -29,6 +29,9 @@ app.use(express.static('Public'))
 // routings...
 const router = require('./RouteManager/Router');
 app.use('/api', router);
+// uploading files
+const fileUploaderRouter = require("./RouteManager/FileUploadRouter")
+app.use("/uploads", fileUploaderRouter);
 
 const PORT = process.env.PORT || 7575;
 app.listen(PORT, () => {
