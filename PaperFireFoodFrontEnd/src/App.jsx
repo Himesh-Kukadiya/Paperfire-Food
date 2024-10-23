@@ -15,6 +15,7 @@ import Contact from './Components/Contact';
 import Footer from './Components/Footer';
 import ProductDetails from './Components/ProductDetails';
 import LoginModal from './Components/BootstrapModal/Login.Modal';
+import RegistrationModal from './Components/BootstrapModal/Registration.Modal';
 
 function App() {
   const [scrollY, setScrollY] = useState(0);
@@ -69,7 +70,7 @@ function App() {
       <Footer />
 
       <LoginModal />
-
+      <RegistrationModal />
       {/* Scroll to Top Button */}
       <div className={`scroll-to-top ${scrollY > 200 ? 'visible' : ''}`} onClick={scrollToTop}>
         <div

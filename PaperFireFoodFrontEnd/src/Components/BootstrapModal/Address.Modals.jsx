@@ -7,7 +7,7 @@ const AddressModal = ({ handleFormData, formData, formError, bookProduct }) => {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="addressModalLabel">Address Information</h5>
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" id='btn-close' className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>

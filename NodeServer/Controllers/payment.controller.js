@@ -130,21 +130,21 @@ The PaperFireFood Team\n\n
                     const to = data.email;
 
                     sendMail(subject, message, to)
-                        res.status(200).json({ message: "Payment and Rent Created Successfully"});
+                    return res.status(200).json({ message: "Payment and Rent Created Successfully"});
                 })
                 .catch((err) => {
                     console.log("error while finding product", err)
-                    res.status(500).json({message: "Error while finding product", err});
+                    return res.status(500).json({message: "Error while finding product", err});
                 })
             })
             .catch((error)=> { 
                 console.log("error while creating payment");
-                res.status(500).json({message: "Error while creating payment", error});
+                return res.status(500).json({message: "Error while creating payment", error});
             });
         })
         .catch((error) => {
             console.log("error while creating new rent")
-            res.status(500).json({message: "Error while creating Rent", error})
+            return res.status(500).json({message: "Error while creating Rent", error})
         })
         // paymentModal.create({})
 

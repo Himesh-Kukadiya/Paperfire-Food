@@ -143,15 +143,14 @@ const ProductDetails = () => {
                                 razorpay_signature: response.razorpay_signature,
                                 data: newFormData,
                             })
-                                .then(res => {
+                                .then((res) => {
                                     console.log('Payment verification success:', res.data);
                                     alert('Payment Successful!');
                                     document.getElementById('btn-close').click();
                                 })
-                                .catch(err => {
+                                .catch((err) => {
                                     console.error('Payment verification error:', err);
                                     alert('Payment verification failed.');
-                                    // Handle error UI changes here
                                 });
                         },
                         modal: {
