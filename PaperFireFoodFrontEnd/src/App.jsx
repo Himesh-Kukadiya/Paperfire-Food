@@ -73,8 +73,8 @@ function App() {
       </BrowserRouter>
       <Footer />
 
-      <LoginModal />
       <RegistrationModal />
+      <LoginModal />
       {/* Scroll to Top Button */}
       <div className={`scroll-to-top ${scrollY > 200 ? 'visible' : ''}`} onClick={scrollToTop}>
         <div

@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ShowFullImageModal from './ShowFullImage.Modal';
 import { validateMobile } from '../../Script';
+import EmailVerificationModal from './EmailVerification.Modal';
 
 const ProfileModal = () => {
     const { userId } = useParams();
@@ -10,9 +11,11 @@ const ProfileModal = () => {
 
     const fileInputRef = useRef(null);
 
+    const [forgetPasswordStatus, setForgetPasswordStatus] = useState(false);
     const [editedData, setEditedData] = useState({ ...userData });
     const [errors, setErrors] = useState({ name: false, email: false, mobile: false, restaurant: false, rAddress: false });
     const [isEditing, setIsEditing] = useState({ name: false, email: false, mobile: false, restaurant: false, rAddress: false });
+    const modalOpenRef = useRef(null);
 
     // Function to handle file selection
     const handleFileChange = (event) => {
@@ -29,8 +32,8 @@ const ProfileModal = () => {
             })
                 .then((response) => {
                     const updatedUserData = { ...userData, imageURL: response.data.imageURL };
-                    setEditedData(updatedUserData); // Update state
-                    localStorage.setItem("userDataPFF", JSON.stringify(updatedUserData)); // Update local storage
+                    setEditedData(updatedUserData);
+                    localStorage.setItem("userDataPFF", JSON.stringify(updatedUserData));
                 })
                 .catch((error) => console.error("Error while uploading Profile Image:", error));
         }
@@ -59,12 +62,14 @@ const ProfileModal = () => {
         }
     };
 
+    useEffect(() => { modalOpenRef.current.click(); }, [forgetPasswordStatus])
+
     // Function to save changes
     const handleSaveChanges = () => {
         axios.post("http://localhost:7575/api/updateProfile", editedData)
             .then((res) => {
                 localStorage.setItem('userDataPFF', JSON.stringify(res.data.userData));
-                setIsEditing({ name: false, email: false, mobile: false, restaurant: false, rAddress: false }); // Reset editing state
+                setIsEditing({ name: false, email: false, mobile: false, restaurant: false, rAddress: false });
             })
             .catch((err) => console.error("Error updating profile:", err));
     };
@@ -149,7 +154,7 @@ const ProfileModal = () => {
                                             localStorage.removeItem("userDataPFF");
                                             window.location.href = "/";
                                         }}>Logout</button>
-                                        <button className="btn btn-link btn-dark btn-sm w-50">Forget Password?</button>
+                                        <button className="btn btn-link btn-dark btn-sm w-50" onClick={() => setForgetPasswordStatus(true)} >Forget Password?</button>
                                     </p>
                                     <hr />
                                 </div>
@@ -158,7 +163,9 @@ const ProfileModal = () => {
                     </div>
                 </div>
             </div>
+            <button ref={modalOpenRef} style={{display: "none"}} data-toggle="modal" data-target="#EmailVerificationModal">Demo BTN</button>
             <ShowFullImageModal imageURL={`http://localhost:7575/Images/Users/${userData.imageURL}`} />
+            {forgetPasswordStatus && <EmailVerificationModal email={userData.email} modalType={"Forgot Password"} name={userData.name} />}
         </>
     );
 };

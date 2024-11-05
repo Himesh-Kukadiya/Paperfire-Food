@@ -14,6 +14,22 @@ router
     .route("/updateProfile")
     .post(userController.updateProfile)
 
+router 
+    .route("/sendOTP")
+    .post(userController.sendOTP)
+
+router
+    .route("/verifyOTP")
+    .post(userController.verifyOTP);
+
+router
+    .route("/changePassword")
+    .post(userController.changePassword);
+
+router 
+    .route("/logOtps")
+    .get(userController.logOtps);
+
 const servicesController = require("../Controllers/services.controller")
 router
     .route("/getServices")

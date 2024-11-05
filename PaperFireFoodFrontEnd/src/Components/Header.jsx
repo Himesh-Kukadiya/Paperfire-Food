@@ -28,23 +28,12 @@ const Header = () => {
                     ))}
                     <li className='nav-item'>
                         {userData
-                            ? userData.imageURL === "default.png" ? (
-                                    <span
-                                        className='rounded-circle font-bold mt-2 bg-white text-dark d-inline-flex align-items-center justify-content-center'
-                                        style={{ width: '30px', height: '30px', fontSize: "25px", cursor: 'pointer'}}
-                                        data-toggle="modal" data-target="#ProfileModal"
-                                    >
-                                        {userData.name[0].toUpperCase()}
-                                    </span>
-                                ) : (
-                                    <img
-                                        className='nav-link d-inline rounded-circle shadow-danger'
-                                        src={`http://localhost:7575/Images/Users/${userData.imageURL}`}
-                                        style={{ maxHeight: '45px', maxWidth: '45px', objectFit: 'cover', cursor: 'pointer' }}
-                                        data-toggle="modal" data-target="#ProfileModal"
-                                    />
-                                )
-
+                            ? <img
+                                className='nav-link d-inline rounded-circle shadow-danger'
+                                src={`http://localhost:7575/Images/Users/${userData.imageURL}`}
+                                style={{ maxHeight: '45px', maxWidth: '45px', objectFit: 'cover', cursor: 'pointer' }}
+                                data-toggle="modal" data-target="#ProfileModal"
+                            />
                             : (<>
                                 <a href="#" className='btn btn-danger px-4 mr-2' data-toggle="modal" data-target="#LoginModal">Login</a>
                                 <a href="#" className='btn btn-danger px-4' data-toggle="modal" data-target="#RegistrationModal">Register</a>

@@ -1,23 +1,46 @@
+const { verify } = require('crypto');
+
 const usersModel = require('../Models/users.model');
+const generateOTP = require('../Functions/generateOTP');
+const sendMail = require('../Functions/sendMail');
+
+let cntr = 1;
+const NodeCache = require('node-cache');
+class SecureOTP {
+    constructor() {
+        const otpCache = new NodeCache({ stdTTL: 10 * 60, checkperiod: 10 * 60});
+
+        this.addOtp = (email, otp) => {
+            otpCache.set(email, otp);
+        };
+
+        this.getOtp = (email) => {
+            return otpCache.get(email);
+        };
+
+        this.getAllOtps = () => {
+            return otpCache.keys().reduce((acc, key) => {
+                acc[key] = otpCache.get(key);
+                return acc;
+            }, {});
+        };
+
+        this.removeOtp = (email) => {
+            otpCache.del(email);
+        };
+    }
+}
+
+const otps = new SecureOTP();
 
 const userRegistration = (req, res) => {
-    const { email } = req.body;
+    const { email, type } = req.body;
     usersModel.findOne({ email: email })
         .then((data) => {
             if (data) {
-                return res.status(409).json({ message: "This account is all ready exists" });
+                return res.status(409).json({ message: "User all ready exists" });
             }
-            else {
-                usersModel.create(req.body)
-                    .then((response) => {
-                        console.log("User created successfully")
-                        return res.status(200).json({ message: "Registration Successful", data: response })
-                    })
-                    .catch((err) => {
-                        console.log("Error while creating user", err)
-                        return res.status(500).json({ message: "Error while creating user", error: err })
-                    })
-            }
+            else return res.status(200).json({ message: "Registration Successful", data: req.body })
         })
         .catch((error) => {
             console.log("Error while checking user existence", error)
@@ -25,13 +48,59 @@ const userRegistration = (req, res) => {
         })
 }
 
+const sendOTP = (req, res) => {
+    const { email, name } = req.body;
+
+    const otp = generateOTP(6);
+    otps.addOtp(email, otp); 
+    console.log(otps.getAllOtps()); 
+
+    const subject = "Your One-Time Password (OTP) for Account Verification";
+    const message = `
+Dear ${name},
+
+To complete your verification, please use the following One-Time Password (OTP):
+
+OTP: ${otp}
+
+This OTP is valid for the next 10 minutes. Please do not share this code with anyone.
+
+If you did not request this code, please ignore this message or contact support at paperfirefood75@gmail.com.
+
+Best regards,
+Your Support Team
+`;
+
+    sendMail(subject, message, email);
+    
+    res.status(200).json({ message: "OTP sent successfully" });
+};
+
+const verifyOTP = (req, res) => {
+    const { email, otp } = req.body;
+    const storedOtp = otps.getOtp(email);
+
+    if (storedOtp && storedOtp === otp) {
+        otps.removeOtp(email); 
+        return res.status(200).json({ message: "OTP verified successfully" });
+    } else {
+        return res.status(401).json({ message: "OTP does not match or has expired" });
+    }
+};
+
+
 const userLogin = (req, res) => {
     const { email, password } = req.body;
     usersModel.findOne({ email: email })
         .then((user) => {
             if (!user) return res.status(404).json({ message: "User not found" });
             else {
-                if (user.password === password) return res.status(200).json({ message: "Login Successful", data: user });
+                if (user.password === password) {
+                    const userObj = user.toObject();
+                    delete userObj.password;
+                    delete userObj.__v;
+                    return res.status(200).json({ message: "Login Successful", data: userObj });
+                }
                 else return res.status(401).json({ message: "Invalid Cradentials" });
             }
         })
@@ -71,9 +140,30 @@ const profileImageUpload = (req, res) => {
     })
 };
 
+const changePassword = (req, res) => { 
+    const {email, password} = req.body;
+
+    usersModel.findOneAndUpdate({ email: email }, { password: password }, { new: true })
+    .then(() => res.status(200).json({ message: "Password updated successfully"}))
+    .catch(err => {
+        console.log("Error while updating password", err)
+        res.status(500).json({ message: "Error while updating password", error: err });
+    })
+}
+
+const logOtps = (req, res) => {
+    console.log("------------------------------------------------------------- " + cntr);
+    console.log(otps.getAllOtps())
+    res.send("cnt is " + cntr++)
+};
+
 module.exports = {
     userRegistration,
     userLogin,
     updateProfile,
     profileImageUpload,
+    sendOTP,
+    verifyOTP,
+    changePassword,
+    logOtps,
 }

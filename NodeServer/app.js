@@ -2,6 +2,7 @@ const express = require('express');
 const env = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const session = require('express-session')
 
 // env configuration...
 env.config();
@@ -16,6 +17,9 @@ connect();
 
 // creating app from express...
 const app = express();
+
+// Middleware to handle Session
+app.use(session({secret: "Users OPT"}))
 
 // Middleware to parse JSON request bodies...
 app.use(express.json());
