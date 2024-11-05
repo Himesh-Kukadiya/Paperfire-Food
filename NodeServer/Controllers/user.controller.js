@@ -34,7 +34,7 @@ class SecureOTP {
 const otps = new SecureOTP();
 
 const userRegistration = (req, res) => {
-    const { email, type } = req.body;
+    const { email } = req.body;
     usersModel.findOne({ email: email })
         .then((data) => {
             if (data) {
@@ -77,12 +77,33 @@ Your Support Team
 };
 
 const verifyOTP = (req, res) => {
-    const { email, otp } = req.body;
+    const { email, otp, userData } = req.body;
     const storedOtp = otps.getOtp(email);
 
     if (storedOtp && storedOtp === otp) {
         otps.removeOtp(email); 
-        return res.status(200).json({ message: "OTP verified successfully" });
+
+        if (userData) {
+            usersModel.create(userData)
+                .then((newUser) => {
+                    const userObj = newUser.toObject();
+                    delete userObj.password; 
+                    delete userObj.__v;
+
+                    return res.status(200).json({ 
+                        message: "Email verified successfully", 
+                        data: userObj 
+                    });
+                })
+                .catch((error) => {
+                    return res.status(500).json({ 
+                        message: "Error while creating new user", 
+                        data: error 
+                    });
+                });
+        } else {
+            return res.status(200).json({ message: "OTP verified successfully" });
+        }
     } else {
         return res.status(401).json({ message: "OTP does not match or has expired" });
     }

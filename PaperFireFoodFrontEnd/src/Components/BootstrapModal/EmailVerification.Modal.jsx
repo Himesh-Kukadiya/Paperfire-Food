@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { validateEmail, validatePassword } from "../../Script/";
 
-const EmailVerificationModal = ({ email, userData, name }) => {
+const EmailVerificationModal = ({ email, userData, modalType, name }) => {
     const [step, setStep] = useState(1);
     const [otp, setOtp] = useState(new Array(6).fill(""));
     const [otpStatus, setOtpStatus] = useState(false);
     const [isResendActive, setIsResendActive] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showRePassword, setShowRePassword] = useState(false);
-    const [passwordData, setPasswordData] = useState(email !== undefined ? {} : {email: ""});
+    const [passwordData, setPasswordData] = useState(email !== undefined ? {} : { email: "" });
     const [validationErrors, setValidationErrors] = useState({});
     const [invalidOtpError, setInvalidOtpError] = useState(false);
 
@@ -21,7 +21,7 @@ const EmailVerificationModal = ({ email, userData, name }) => {
     const verifyRef = useRef(null);
     const closeModalRef = useRef(null);
 
-    useEffect(() => {console.log(email)}, [])
+    useEffect(() => { console.log(email) }, [])
 
     useEffect(() => {
         if (otpStatus) {
@@ -103,24 +103,31 @@ const EmailVerificationModal = ({ email, userData, name }) => {
             .then((response) => {
                 console.log(response.data);
                 setOtpStatus(true);
-                setStep(2); // Move to the password change step on successful OTP verification
+
+                if (modalType === "Email Verification") {
+                    localStorage.setItem("userDataPFF", JSON.stringify(response.data.data));
+                    window.location = `/${response.data.data._id}`;
+                } else {
+                    // Proceed to password change step if this is for password reset
+                    setStep(2);
+                }
             })
             .catch((error) => {
-                console.error(`Error while sending OTP: ${error}`)
+                console.error(`Error while sending OTP: ${error}`);
                 setInvalidOtpError(true);
             });
     };
 
     const handleChangePassword = () => {
-        const data = {...passwordData, email: email !== undefined ? email : passwordData.email,}
+        const data = { ...passwordData, email: email !== undefined ? email : passwordData.email };
         axios.post("http://localhost:7575/api/changePassword", data)
-        .then(() => {
-            closeModalRef.current.click();
-        })
-        .catch((error) => {
-            console.error(`Error while changing password: ${error}`)
-        })
-    }
+            .then(() => {
+                closeModalRef.current.click();
+            })
+            .catch((error) => {
+                console.error(`Error while changing password: ${error}`);
+            });
+    };
 
     const handlePasswordChange = (e) => {
         const { name, value } = e.target;
@@ -158,7 +165,7 @@ const EmailVerificationModal = ({ email, userData, name }) => {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="EmailVerificationModalLabel">
-                            {step === 1 ? "Email Verification" : "Change Password"}
+                            {modalType === "Email Verification" ? "Email Verification" : (step === 1 ? "Email Verification" : "Change Password")}
                         </h5>
                         <button type="button" ref={closeModalRef} className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -249,72 +256,55 @@ const EmailVerificationModal = ({ email, userData, name }) => {
                                 )}
                             </div>
                             <div className="modal-footer">
-                                {otpStatus ? (
-                                    <button
-                                        className="btn btn-primary w-50"
-                                        ref={verifyRef}
-                                        onClick={handleVerifyOtp}
-                                        disabled={
-                                            otp.some((digit) => digit === "") || !validationErrors.email === "success"
-                                        }
-                                    >
-                                        Verify OTP
-                                    </button>
-                                ) : (
-                                    <button className="btn btn-primary w-50" onClick={handleSendOtp}>
-                                        Send OTP
-                                    </button>
-                                )}
+                                <button type="button" className="btn btn-outline-light w-100" onClick={otpStatus ? handleVerifyOtp : handleSendOtp} ref={verifyRef}>
+                                    {otpStatus ? "Verify OTP" : "Send OTP"}
+                                </button>
                             </div>
                         </>
                     ) : (
-                        <>
-                            <div className="modal-body">
-                                {/* Password Field */}
-                                <div className="form-group position-relative">
-                                    <label htmlFor="password">Password</label>
-                                    <input
-                                        type={showPassword ? "text" : "password"}
-                                        className={`form-control text-light bg-transparent ${validationErrors.password && validationErrors.password !== "success"
-                                                ? "is-invalid"
-                                                : validationErrors.password === "success"
-                                                    ? "is-valid"
-                                                    : ""
-                                            }`}
-                                        id="password"
-                                        name="password"
-                                        placeholder="What's Your Secret Password?"
-                                        value={passwordData.password || ""}
-                                        onChange={handlePasswordChange}
-                                        required
-                                    />
-                                    {validationErrors.password && (
+                        // Step 2: Change Password
+                        <div className="modal-body">
+                            {/* New Password */}
+                            <div className="form-group">
+                                <label htmlFor="password">New Password</label>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    className={`form-control text-light bg-transparent ${validationErrors.password && validationErrors.password !== "success"
+                                            ? "is-invalid"
+                                            : validationErrors.password === "success"
+                                                ? "is-valid"
+                                                : ""
+                                        }`}
+                                    id="password"
+                                    placeholder="Enter New Password"
+                                    name="password"
+                                    onChange={handlePasswordChange}
+                                />
+                                {validationErrors.password && (
                                         <div className="invalid-feedback">{validationErrors.password}</div>
                                     )}
                                     <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
                                         <i className="material-icons mt-1">{showPassword ? "visibility_off" : "visibility"}</i>
                                     </span>
-                                </div>
+                            </div>
 
-                                {/* Re-enter Password Field */}
-                                <div className="form-group position-relative">
-                                    <label htmlFor="rePassword">Re-Password</label>
-                                    <input
-                                        type={showRePassword ? "text" : "password"}
-                                        className={`form-control text-light bg-transparent ${validationErrors.rePassword && validationErrors.rePassword !== "success"
-                                                ? "is-invalid"
-                                                : validationErrors.rePassword === "success"
-                                                    ? "is-valid"
-                                                    : ""
-                                            }`}
-                                        id="rePassword"
-                                        name="rePassword"
-                                        placeholder="Please Confirm Your Password"
-                                        value={passwordData.rePassword || ""}
-                                        onChange={handlePasswordChange}
-                                        required
-                                    />
-                                    {validationErrors.rePassword && (
+                            {/* Confirm Password */}
+                            <div className="form-group">
+                                <label htmlFor="rePassword">Confirm Password</label>
+                                <input
+                                    type={showRePassword ? "text" : "password"}
+                                    className={`form-control text-light bg-transparent ${validationErrors.rePassword && validationErrors.rePassword !== "success"
+                                            ? "is-invalid"
+                                            : validationErrors.rePassword === "success"
+                                                ? "is-valid"
+                                                : ""
+                                        }`}
+                                    id="rePassword"
+                                    placeholder="Re-enter Password"
+                                    name="rePassword"
+                                    onChange={handlePasswordChange}
+                                />
+                                {validationErrors.rePassword && (
                                         <div className="invalid-feedback">{validationErrors.rePassword}</div>
                                     )}
                                     <span className="eye-icon" onClick={() => setShowRePassword(!showRePassword)}>
@@ -322,23 +312,22 @@ const EmailVerificationModal = ({ email, userData, name }) => {
                                             {showRePassword ? "visibility_off" : "visibility"}
                                         </i>
                                     </span>
-                                </div>
                             </div>
-
-                            <div className="modal-footer">
-                                <button
-                                    className="btn btn-primary w-50"
-                                    onClick={handleChangePassword}
-                                    disabled={
-                                        validationErrors.password !== "success" ||
-                                        validationErrors.rePassword !== "success"
-                                    }
-                                >
-                                    Change Password
-                                </button>
-                            </div>
-                        </>
+                        </div>
                     )}
+
+                    <div className="modal-footer">
+                        {step === 2 && (
+                            <button
+                                type="button"
+                                className="btn btn-outline-light w-100"
+                                onClick={handleChangePassword}
+                                ref={verifyRef}
+                            >
+                                Change Password
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
@@ -347,8 +336,9 @@ const EmailVerificationModal = ({ email, userData, name }) => {
 
 EmailVerificationModal.propTypes = {
     email: PropTypes.string,
-    name: PropTypes.string,
+    modalType: PropTypes.oneOf(["Email Verification", "Forgot Password"]),
     userData: PropTypes.object,
+    name: PropTypes.string,
 };
 
 export default EmailVerificationModal;
