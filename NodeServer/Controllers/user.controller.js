@@ -71,7 +71,7 @@ Best regards,
 Your Support Team
 `;
 
-    sendMail(subject, message, email);
+    sendMail(subject, message, ``, email);
     
     res.status(200).json({ message: "OTP sent successfully" });
 };

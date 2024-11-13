@@ -14,14 +14,17 @@ const getProductDetails = (req, res) => {
     productsModal.findOne({id: p_id}) // finding product details
     .then((product) => {
         if (!product) return res.status(404).json({message: "Product not found"});
-        rentModal.find({pId: product._id, toDate: { $gte: new Date(getFormateDate(new Date())) }}) // finding rent details
+        rentModal.find({pId: product.id, toDate: { $gte: new Date(getFormateDate(new Date())) }}) // finding rent details
         .then((rent) => {
             if(!rent || rent.length === 0) return res.status(200).json({product}); // if rent is empty then send only product details
-            const newRent = []; 
+            const rents = []; 
             rent.forEach((r) => {
-                newRent.push({fromDate: getFormateDate(r.fromDate),toDate: getFormateDate(r.toDate),quantity: r.quantity}); // we need only fromDate, toDate and quantity
+                const newRent = {};
+                for(let i = 0; i < r.pId.length; i++) {
+                    if(String(r.pId[i]) === p_id) rents.push({fromDate: getFormateDate(r.fromDate[i]),toDate: getFormateDate(r.toDate[i]),quantity: r.quantity[i]}); 
+                }
             })
-            res.status(200).json({product, rent: newRent}); // if rent is not empty then send product details with rent details.
+            res.status(200).json({product, rent: rents}); // if rent is not empty then send product details with rent details.
         })
         .catch((error) => {
             console.log(error); 

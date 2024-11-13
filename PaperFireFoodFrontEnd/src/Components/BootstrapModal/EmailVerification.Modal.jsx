@@ -265,31 +265,53 @@ const EmailVerificationModal = ({ email, userData, modalType, name }) => {
                         // Step 2: Change Password
                         <div className="modal-body">
                             {/* New Password */}
-                            <div className="form-group">
-                                <label htmlFor="password">New Password</label>
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    className={`form-control text-light bg-transparent ${validationErrors.password && validationErrors.password !== "success"
-                                            ? "is-invalid"
-                                            : validationErrors.password === "success"
-                                                ? "is-valid"
-                                                : ""
-                                        }`}
-                                    id="password"
-                                    placeholder="Enter New Password"
-                                    name="password"
-                                    onChange={handlePasswordChange}
-                                />
-                                {validationErrors.password && (
-                                        <div className="invalid-feedback">{validationErrors.password}</div>
-                                    )}
-                                    <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
-                                        <i className="material-icons mt-1">{showPassword ? "visibility_off" : "visibility"}</i>
+                            <div className="form-group position-relative">
+                                    <label htmlFor="password">Password</label>
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        className={`form-control text-light bg-transparent ${validationErrors.password && validationErrors.password !== 'success' ? 'is-invalid' : validationErrors.password === 'success' ? 'is-valid' : ''}`}
+                                        id="password"
+                                        name="password"
+                                        placeholder="What's Your Secret Password?"
+                                        value={passwordData.password || ""}
+                                        onChange={handlePasswordChange}
+                                        required
+                                    />
+                                    {validationErrors.password && validationErrors.password !== 'success' && <small className="text-danger">{validationErrors.password}</small>}
+                                    <span
+                                        className="eye-icon"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        <i className="material-icons mt-1">
+                                            {showPassword ? "visibility_off" : "visibility"}
+                                        </i>
                                     </span>
-                            </div>
+                                </div>
 
                             {/* Confirm Password */}
-                            <div className="form-group">
+                            <div className="form-group position-relative">
+                                    <label htmlFor="rePassword">Re-enter Password</label>
+                                    <input
+                                        type={showRePassword ? "text" : "password"}
+                                        className={`form-control text-light bg-transparent ${validationErrors.rePassword && validationErrors.rePassword !== 'success' ? 'is-invalid' : validationErrors.rePassword === 'success' ? 'is-valid' : ''}`}
+                                        id="rePassword"
+                                        name="rePassword"
+                                        placeholder="Re-enter Your Secret Password"
+                                        value={passwordData.rePassword || ""}
+                                        onChange={handlePasswordChange}
+                                        required
+                                    />
+                                    {validationErrors.rePassword && validationErrors.rePassword !== 'success' && <small className="text-danger">{validationErrors.rePassword}</small>}
+                                    <span
+                                        className="eye-icon"
+                                        onClick={() => setShowRePassword(!showRePassword)}
+                                    >
+                                        <i className="material-icons mt-1">
+                                            {showRePassword ? "visibility_off" : "visibility"}
+                                        </i>
+                                    </span>
+                                </div>
+                            {/* <div className="form-group">
                                 <label htmlFor="rePassword">Confirm Password</label>
                                 <input
                                     type={showRePassword ? "text" : "password"}
@@ -312,7 +334,7 @@ const EmailVerificationModal = ({ email, userData, modalType, name }) => {
                                             {showRePassword ? "visibility_off" : "visibility"}
                                         </i>
                                     </span>
-                            </div>
+                            </div> */}
                         </div>
                     )}
 

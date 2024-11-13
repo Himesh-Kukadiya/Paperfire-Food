@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import axios from 'axios';
 import Product from './Product';
@@ -7,8 +8,8 @@ import AddressModals from './BootstrapModal/Address.Modals';
 
 import {validateEmail, validateMobile, validateZip} from "../Script/index";
 
-const ProductDetails = () => {
-    const { P_ID } = useParams();
+const ProductDetails = ({addToCart}) => {
+    const { P_ID, userId } = useParams();
     const deliveryDayse = 3;
 
     // first time scrolling function
@@ -33,6 +34,7 @@ const ProductDetails = () => {
         var [formData, setFormData] = useState({ name: "", email: "", mobile: "", address: "", city: "", state: "", zip: "" });
         var [formError, setFormError] = useState({ name: "", email: "", mobile: "", address: "", city: "", state: "", zip: "" });
         var [errors, setErrors] = useState(false);
+        var [isAddressRedy, setIsAddressRedy] = useState(false);
     }
 
     // handle main image
@@ -125,19 +127,31 @@ const ProductDetails = () => {
                 else {
                     setErrors(false)
                     // Prepare form data
-                    const newFormData = { ...formData, fromDate, toDate, quantity };
-                    newFormData.total = Number(days * product.rent * quantity);
-                    newFormData.p_id = Number(P_ID);
-                    newFormData.days = days;
-                    newFormData.rent = product.rent;
+                    const newFormData = { ...formData, 
+                        pId: [Number(P_ID)],
+                        uId: userId,
+                        fromDate: [fromDate], 
+                        toDate: [toDate], 
+                        quantity: [quantity],
+                        total: [Number(days * product.rent * quantity)],
+                        days: [days],
+                        rent: [product.rent],
+                        shippingPrice: 0,
+                        totalAmt: Number(days * product.rent * quantity)
+                    };
+
+                    newFormData.totalAmt = newFormData.total.reduce((cur, acc) => {
+                        return cur + acc;
+                    }, 0)
+
                     // Send form data to the backend to get Razorpay options
-                    const { data: { options } } = await axios.post(`http://localhost:7575/api/getOptions/`, newFormData);
+                    const { data: { options } } = await axios.post(`http://localhost:7575/api/getOptions/`, {totalAmt: newFormData.totalAmt});
 
                     const razor = new window.Razorpay({
                         ...options,
                         handler: function (response) {
                             // Handle payment success and send payment details for verification
-                            axios.post(`http://localhost:7575/api/paymentVarification/${product._id}`, {
+                            axios.post(`http://localhost:7575/api/paymentVerification/${userId}`, {
                                 razorpay_payment_id: response.razorpay_payment_id,
                                 razorpay_order_id: response.razorpay_order_id,
                                 razorpay_signature: response.razorpay_signature,
@@ -148,8 +162,8 @@ const ProductDetails = () => {
                                     alert('Payment Successful!');
                                     document.getElementById('btn-close').click();
                                 })
-                                .catch((err) => {
-                                    console.error('Payment verification error:', err);
+                                .catch(error => {
+                                    console.error(error.response.data.message);
                                     alert('Payment verification failed.');
                                 });
                         },
@@ -163,7 +177,7 @@ const ProductDetails = () => {
                     razor.open(); // Lonch Razorpay payment screen
                 }
             } catch (error) {
-                console.error("Error in booking product:", error);
+                console.error("Error in booking product:", error.response.data.message);
                 alert('Something went wrong during booking. Please try again.');
             }
         };
@@ -218,6 +232,24 @@ const ProductDetails = () => {
                     break;
             }
             setFormData({ ...formData, [tag]: value });
+        }
+
+        var handleAddToCart = (product) => {
+            const day = days;
+            const newProduct = {
+                _id: product._id,
+                id: product.id,
+                name: product.name,
+                quantity: quantity,
+                rent: product.rent,
+                time: product.time,
+                image: product.image[0],
+                fromDate: fromDate,
+                toDate: toDate,
+                days: day,
+                available: available,
+            }
+            addToCart(newProduct)
         }
     }
 
@@ -314,11 +346,13 @@ const ProductDetails = () => {
 
                             <div className="action-buttons mb-3">
                                 <button className="btn btn-secondary me-2"
-                                    onClick={() => bookProduct}
+                                    onClick={() => setIsAddressRedy(true)}
                                     disabled={quantityLimitError || quantity === 0 || quantity > available || fromDate < getDate(deliveryDayse) || toDate < getDate(deliveryDayse)}
                                     data-toggle="modal" data-target="#addressModal"
                                 > Rent Now </button>
                                 <button className="btn btn-secondary"
+                                    disabled={quantityLimitError || quantity === 0 || quantity > available || fromDate < getDate(deliveryDayse) || toDate < getDate(deliveryDayse)}
+                                    onClick={() => handleAddToCart(product)}
                                 > Add to Cart </button>
                             </div>
                         </div>
@@ -326,13 +360,16 @@ const ProductDetails = () => {
 
                     {/* Related Products Section */}
                     <Product title={"Other Products You Might Like"} />
+                    {/* Modal for address details */}
+                    {isAddressRedy && <AddressModals bookProduct={bookProduct} formData={formData} formError={formError} handleFormData={handleFormData} errors={errors} />}
                 </div>
             </section>
-
-            {/* Modal for address details */}
-            <AddressModals bookProduct={bookProduct} formData={formData} formError={formError} handleFormData={handleFormData} errors={errors} />
         </>
     );
 };
+
+ProductDetails.propTypes = {
+    addToCart: PropTypes.func.isRequired,
+}
 
 export default ProductDetails;

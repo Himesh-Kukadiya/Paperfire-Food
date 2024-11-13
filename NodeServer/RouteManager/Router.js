@@ -50,8 +50,8 @@ router
     .post(paymentController.getOptions)
 
 router
-    .route("/paymentVarification/:P_ID")
-    .post(paymentController.paymentVarification);
+    .route("/paymentVerification/:userId")
+    .post(paymentController.paymentVerification);
 
 const galleryController = require("../Controllers/gallary.controller");
 router 

@@ -1,40 +1,40 @@
 const mongoose = require('mongoose');
 
 const rentModel = mongoose.model('Rents', {
-    pId: {
-        type: mongoose.Schema.Types.ObjectId,
+    pId: [{
+        type: Number,
         ref: 'Products',
         required: true
-    },
+    }],
     uId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
         required: true
     },
-    fromDate: {
+    fromDate: [{
         type: Date,
         required: true
-    },
-    toDate: {
+    }],
+    toDate: [{
         type: Date,
         required: true
-    },
-    quantity: {
+    }],
+    quantity: [{
         type: Number,
         required: true
-    },
-    rent: {
+    }],
+    rent: [{
         type: Number,
         required: true
-    },
-    days: {
+    }],
+    days: [{
         type: Number,
         required: true
-    },
-    total: {
+    }],
+    total: [{
         type: Number,
         required: true
-    },
+    }],
     mobile: { 
         type: String,
         required: true
