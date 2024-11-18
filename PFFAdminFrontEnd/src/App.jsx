@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css'
 import Header from './Components/Header'
+import SideNavbar from './Components/SideNavbar';
 
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -15,6 +16,7 @@ function App() {
   </>
   return (
     <>
+      <SideNavbar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
       <BrowserRouter>
         <Routes>
           <Route path='/' element={dashboard}/>
