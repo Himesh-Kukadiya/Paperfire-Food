@@ -19,11 +19,12 @@ import LoginModal from './Components/BootstrapModal/Login.Modal';
 import RegistrationModal from './Components/BootstrapModal/Registration.Modal';
 import ProfileModal from './Components/BootstrapModal/Profile.Modal';
 import CartList from './Components/CartList';
+import OrderHistory from './Components/OrderHistory';
 
 function App() {
   const userData = JSON.parse(localStorage.getItem('userDataPFF'));
-  const {pathname} = window.location;
-  if(pathname === "/" && userData) {
+  const { pathname } = window.location;
+  if (pathname === "/" && userData) {
     window.location = `/${userData._id}`;
   }
   const [scrollY, setScrollY] = useState(0);
@@ -62,10 +63,10 @@ function App() {
     let updatedCart;
     if (existingProduct) {
       updatedCart = cart.map((p) =>
-        p._id === product._id ? { ...p, quantity: product.quantity} : p
+        p._id === product._id ? { ...p, quantity: product.quantity } : p
       );
     } else {
-      updatedCart = [...cart, {...product,} ];
+      updatedCart = [...cart, { ...product, }];
     }
 
     setCart(updatedCart);
@@ -91,7 +92,12 @@ function App() {
     localStorage.setItem('cartPFF', JSON.stringify(updatedCart));
   };
 
-  const homePage = (
+  const carts = <>
+  <ProfileModal />
+  <CartList cartItems={cart} updateQuantity={updateQuantity} removeFromCart={removeFromCart} />
+</>
+
+  const homePage =
     <>
       <Home />
       <About />
@@ -100,8 +106,8 @@ function App() {
       <Galary />
       <Testimonials />
       <Contact />
+      {carts}
     </>
-  );
 
   return (
     <>
@@ -113,23 +119,27 @@ function App() {
           <Route path="/:userId" element={
             <>
               {homePage}
-              <ProfileModal />
-              <CartList cartItems={cart} updateQuantity={updateQuantity} removeFromCart={removeFromCart} />
+              
             </>
           } />
-          
+
           {/* PRODUCT DETAILS PAGE WITHOUT USER */}
           <Route path="/productDetails/:P_ID" element={<ProductDetails addToCart={addToCart} />} />
           <Route path="/:userId/productDetails/:P_ID" element={
             <>
               <ProductDetails addToCart={addToCart} />
-              <ProfileModal />
-              <CartList cartItems={cart} updateQuantity={updateQuantity} removeFromCart={removeFromCart} />
+              {carts}
+            </>
+          } />
+          <Route path='/:userId/orderHistory/' element={
+            <>
+              <OrderHistory />
+              {carts}
             </>
           } />
         </Routes>
       </BrowserRouter>
-      <Footer /> 
+      <Footer />
 
       <RegistrationModal />
       <LoginModal />

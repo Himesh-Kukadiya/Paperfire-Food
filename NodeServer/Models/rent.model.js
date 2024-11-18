@@ -57,6 +57,7 @@ const rentModel = mongoose.model('Rents', {
     },
     status: {
         type: String,
+        required: true,
         default: 'Pending'
     },
 }, 'Rents');

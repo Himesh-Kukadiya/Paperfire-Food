@@ -151,7 +151,11 @@ const ProfileModal = () => {
                                     <h6 className="detail-title">Actions</h6>
                                     <p className="detail-buttons">
                                         <button className="btn btn-dark btn-sm w-50" onClick={() => {
+                                            window.location.href = `/${userId}/orderHistory`;
+                                        }}>My Orders</button>
+                                        <button className="btn btn-dark btn-sm w-50" onClick={() => {
                                             localStorage.removeItem("userDataPFF");
+                                            localStorage.removeItem("cartPFF");
                                             window.location.href = "/";
                                         }}>Logout</button>
                                         <button className="btn btn-link btn-dark btn-sm w-50" onClick={() => setForgetPasswordStatus(true)} >Forget Password?</button>

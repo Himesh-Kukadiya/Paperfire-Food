@@ -63,4 +63,9 @@ router
     .route("/getTestimonials")
     .get(testimonialsController.getTestimonials);
 
+const rentController = require("../Controllers/rents.controller");
+router
+    .route("/getRents/:userId")
+    .get(rentController.getRents)
+
 module.exports = router;

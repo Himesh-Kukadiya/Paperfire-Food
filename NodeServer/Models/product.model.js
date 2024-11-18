@@ -33,11 +33,6 @@ const productsModel = mongoose.model('Products', {
         required: true,
         default: 1
     },
-    available : {
-        type: Number,
-        required: true,
-        default: 1
-    },
     image: {
         type: Array,
         required: true
