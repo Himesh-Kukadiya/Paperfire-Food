@@ -125,3 +125,168 @@ body {
   z-index: 12 !important;
 }
 /* End Sidebar  */
+
+/* Dashboard start */
+.main-container {
+  grid-area: main;
+  padding: 20px 20px;
+  color: rgba(255, 255, 255, 0.95);
+  transition: all 0.3s ease-in-out;
+}
+
+.main-title {
+  display: flex;
+  justify-content: space-between;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeIn 0.6s ease-in-out forwards;
+}
+
+.main-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  margin: 15px 0px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 5px 15px;
+  border-radius: 8px;
+  background-color: #1F1F1F;
+  box-shadow: 1px 1px 10px #666;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 3px 3px 15px #888;
+}
+
+.card-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0px 25px 0px;
+}
+
+.card-inner > .title, .card-inner > .card_icon {
+  font-size: 18px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.card > .data {
+  font-size: 22px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+  height: auto;
+  max-height: 100px;
+  padding: 10px;
+}
+
+.chart-box {
+  background-color: #1F1F1F;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 10px #666;
+  transition: transform 0.3s ease;
+}
+
+.chart-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 3px 3px 15px #888;
+}
+
+.chart-title {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.chart-inner {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.recharts-cartesian-axis-tick-value {
+  fill: rgba(255, 255, 255, 0.8);
+}
+
+.recharts-legend-item-text {
+  fill: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* End Dashboard  */
+
+/* responsive Design */
+@media screen and (max-width: 992px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.2fr 3fr;
+    grid-template-areas:
+      'header'
+      'main';
+  }
+
+  #sidebar {
+    display: none;
+  }
+
+  .menu-icon {
+    display: inline;
+  }
+
+  .sidebar-title > span {
+    display: inline;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  body {
+    overflow: auto;
+  }
+  .card {
+    margin: 10px 0px;
+    padding: 25px;
+  }
+  .charts {
+    grid-template-columns: 2fr;  
+    grid-template-rows: auto;    
+  }
+  .table-container {
+    max-height: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main-cards {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .hedaer-left {
+    display: none;
+  }
+}
