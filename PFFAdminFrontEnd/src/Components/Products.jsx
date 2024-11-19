@@ -4,14 +4,27 @@ import axios from 'axios';
 
 const Products = () => {
     const [products, setProducts] = useState([]);
-
-    useEffect(() => {
+    
+    const getProducts = () => {
         axios.get('http://localhost:7575/api/admin/getProducts')
-            .then(response => {
-                setProducts(response.data)
-            })
-            .catch(error => console.error(error));
+        .then(response => {
+            setProducts(response.data)
+        })
+        .catch(error => console.error(error));
+    }
+    useEffect(() => {
+        getProducts();
     }, []);
+
+    const deleteProduct = (id) => {
+        axios.delete(`http://localhost:7575/api/admin/deleteProduct/${id}`)
+        .then((res) => {
+            console.log(res)
+            alert("Product deleted successfully!")
+            getProducts();
+        })
+        .catch((err)=> console.error(err));
+    }
 
     return (
         <section id='product' className='products-section'>
@@ -56,7 +69,7 @@ const Products = () => {
                                             <BsPencilFill className='text-success' />
                                         </button>
                                         <button className="btn btn-icon" title="Delete"
-                                        onClick={() => {}}>
+                                        onClick={() => deleteProduct(product.id)}>
                                             <BsTrashFill className='text-danger' />
                                         </button>
                                     </td>
