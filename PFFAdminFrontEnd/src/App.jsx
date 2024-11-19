@@ -4,6 +4,7 @@ import './App.css'
 import Header from './Components/Header'
 import SideNavbar from './Components/SideNavbar';
 import Dashboard from './Components/Dashboard';
+import Products from './Components/Products';
 
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -11,17 +12,24 @@ function App() {
   const OpenSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle)
   }
-  const dashboard = 
-  <>
-    <Header title={"DASHBOARD"} OpenSidebar={OpenSidebar}/>
-    <Dashboard />
-  </>
+
   return (
     <div className='grid-container'>
       <SideNavbar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={dashboard}/>
+          <Route path='/' element={
+            <>
+              <Header title={"DASHBOARD"} OpenSidebar={OpenSidebar}/>
+              <Dashboard />
+            </>
+          }/>
+          <Route path='/Products' element={
+            <>
+              <Header title={"PRODUCTS"} OpenSidebar={OpenSidebar}/>
+              <Products />
+            </>
+          }/>
         </Routes>
       </BrowserRouter>
     </div>

@@ -236,6 +236,73 @@ body {
 }
 /* End Dashboard  */
 
+/* start Product section */
+#product{
+  grid-area: main;
+  padding: 20px 20px;
+  color: rgba(255, 255, 255, 0.95);
+  transition: all 0.3s ease-in-out;
+}
+
+.product-img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  box-shadow: 1px 1px 10px #888 ;
+}
+
+.table-container {
+  max-height: 75vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #222;
+}
+
+.table-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #222;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.table-header th {
+  position: sticky;
+  top: 0;
+  background-color: #343a40;
+  z-index: 1;
+  text-align: center;
+}
+
+.table-body td, .table-header th {
+  width: auto;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.table-container .table-body td:nth-child(3) {
+  max-width: 200px; 
+  white-space: normal; 
+  word-break: break-word; 
+}
+.table-container .table-body td:nth-child(4) {
+  max-width: 250px; 
+  white-space: normal; 
+  word-break: break-word; 
+}
+
+.btn-secondary .me-2 {
+  font-size: 1.2rem;
+}
+/* end product section */
+
 /* responsive Design */
 @media screen and (max-width: 992px) {
   .grid-container {
@@ -258,7 +325,6 @@ body {
     display: inline;
   }
 }
-
 
 @media screen and (max-width: 768px) {
   body {

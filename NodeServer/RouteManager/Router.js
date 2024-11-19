@@ -68,4 +68,9 @@ router
     .route("/getRents/:userId")
     .get(rentController.getRents)
 
+const adminController = require("../Controllers/admin.controller");
+router 
+    .route("/admin/getProducts")
+    .get(adminController.getProducts)
+
 module.exports = router;
