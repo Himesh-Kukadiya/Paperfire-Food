@@ -9,12 +9,12 @@ const ProfileModal = () => {
     const { userId } = useParams();
     const userData = JSON.parse(localStorage.getItem("userDataPFF")) || {};
 
-    const fileInputRef = useRef(null);
-
     const [forgetPasswordStatus, setForgetPasswordStatus] = useState(false);
     const [editedData, setEditedData] = useState({ ...userData });
     const [errors, setErrors] = useState({ name: false, email: false, mobile: false, restaurant: false, rAddress: false });
     const [isEditing, setIsEditing] = useState({ name: false, email: false, mobile: false, restaurant: false, rAddress: false });
+
+    const fileInputRef = useRef(null);
     const modalOpenRef = useRef(null);
 
     // Function to handle file selection

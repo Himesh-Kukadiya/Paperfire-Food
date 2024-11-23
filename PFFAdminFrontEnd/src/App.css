@@ -303,6 +303,58 @@ body {
 }
 /* end product section */
 
+/* edit product modal */
+.product-image {
+  width: 75px;
+  height: 75px !important;
+  cursor: pointer;
+  object-fit: cover;
+  box-shadow: 2px 2px 10px #fff;
+}
+
+.edit-image-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 45%;
+  left: 65%;
+  background-color: black;
+  border: 1px solid white;
+  padding: 2px;
+  border-radius: 5px;
+  width: 35px;
+  height: 17px;
+  font-size: 9px;
+  color: white;
+}
+
+.remove-image-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 71%;
+  left: 65%;
+  background-color: black;
+  border: 1px solid white;
+  padding: 2px;
+  border-radius: 5px;
+  width: 35px;
+  height: 17px;
+  font-size: 9px;
+  color: white;
+}
+
+select.form-control {
+  color: #ffffff;
+  background-color: #000000;
+  border: 1px solid #ffffff;
+}
+
+select.form-control option {
+  color: #ffffff;
+  background-color: #000000;
+  width: 50px;
+}
+
+
 /* responsive Design */
 @media screen and (max-width: 992px) {
   .grid-container {
@@ -355,4 +407,16 @@ body {
   .hedaer-left {
     display: none;
   }
+}
+
+/* bootstrap modal design */
+.modal-dialog {
+  box-shadow: 1px 1px 10px gray;
+  border-radius: 10px;
+}
+
+.modal-content {
+  background-color: #000;
+  color: #FFF;
+  border-radius: 8px;
 }

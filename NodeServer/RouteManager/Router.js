@@ -77,4 +77,8 @@ router
     .route("/admin/deleteProduct/:id")
     .delete(adminController.deleteProduct)
 
+router 
+    .route("/admin/updateProduct/:id")
+    .put(adminController.updateProduct)
+
 module.exports = router;
