@@ -65,6 +65,8 @@ const editProductImage = async (req, res) => {
 
         }
         else {
+            const imagePath = path.join(__dirname, "../Public/Images/Products/", product.image[imageIndex]);
+            fs.unlinkSync(imagePath);
             product.image[imageIndex] = filename;
         }
 
@@ -101,6 +103,7 @@ const deleteProductImage = async (req, res) => {
             const imagePath = path.join(__dirname, "../Public/Images/Products/", removed);
             fs.unlinkSync(imagePath);
 
+
             res.status(200).json({ message: "Product image deleted successfully", product: updatedProduct });
         }
     }
@@ -110,10 +113,86 @@ const deleteProductImage = async (req, res) => {
     }
 }
 
+// add product image and edit product image
+const addImage = (req, res) => {
+    try {
+        if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+
+        const {images, index} = req.body;
+
+        console.log(index)
+        let imgArr = [];
+
+        if(images.length > 0)
+            imgArr = images.split(",")
+
+        const { filename } = req.file;
+        if(index < 0)
+            imgArr.push(filename);
+        else {
+        const imagePath = path.join(__dirname, "../Public/Images/Products/", imgArr[index]);
+        fs.unlinkSync(imagePath);
+        imgArr[index] = filename;
+
+        }
+        res.status(200).json({message: "Product image added successfully", images: imgArr});
+    }
+    catch(error) {
+        console.log("Error while adding Image", error)
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}
+
+
+const deleteNewProductImage = (req, res) => {
+    try {
+        const {images, index} = req.body;
+
+        if(index < 0 || index >= images.length)
+            return res.status(400).json({ message: "Invalid image index" });
+
+        const unlinkImg = images.splice(index, 1);
+
+        const imagePath = path.join(__dirname, "../Public/Images/Products/", unlinkImg[0]);
+        fs.unlinkSync(imagePath);
+
+        res.status(200).json({message: "image deleted successfully!", images});
+    }
+    catch(error) {
+        console.log("Error while deleting New Image", error)
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}
+
+const addProduct = (req, res) => {
+    const {product} = req.body;
+    productModel.create(product)
+    .then((newProduct) => {
+        if(!newProduct) return res.status(404).json({ message: "product addition failed"});
+        productModel.find()
+        .then((products) => {
+            if(!products) return res.status(404).json({ message: "no any products found"});
+            
+            res.status(200).json({ message: "product added successfully", products: products});
+        })
+        .catch((err) => {
+            console.log("Error while finding product:", err)
+            res.status(500).json({ message: "Error while finding product", err})
+        })
+    })
+    .catch((err) => {
+        console.log("Error while adding product:", err)
+        res.status(500).json({ message: "Error while adding product", err})
+    })
+}
+
 module.exports = {
     getProducts,
     updateProduct,
     deleteProduct,
     editProductImage,
     deleteProductImage,
+    addImage,
+    deleteNewProductImage,
+    addProduct,
 }

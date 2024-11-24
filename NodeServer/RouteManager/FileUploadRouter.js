@@ -17,4 +17,8 @@ router
     .route("/admin/deleteProductImage/:_id")
     .put(adminController.deleteProductImage)
 
+router
+    .route("/admin/addImage")
+    .patch(fileUploader("Public/Images/Products").single('productImage'), adminController.addImage)
+
 module.exports = router;

@@ -2,6 +2,7 @@ import { BsPencilFill, BsTrashFill, BsPlus } from 'react-icons/bs';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import EditProduct from './BootstrapModal/Edit.Product';
+import AddProductModal from './BootstrapModal/Add.Product.Modal';
 
 const Products = () => {
     const [products, setProducts] = useState([]);
@@ -48,7 +49,10 @@ const Products = () => {
         <section id="product" className="products-section">
             <div className="container-fluid">
                 <div className="d-flex justify-content-start mb-4">
-                    <button className="btn btn-secondary">
+                    <button className="btn btn-secondary"
+                        data-toggle="modal"
+                        data-target="#AddProductModal"
+                    >
                         <BsPlus className="me-2" /> Add New Product
                     </button>
                 </div>
@@ -115,6 +119,7 @@ const Products = () => {
             </button>
             {/* Conditionally render EditProduct modal */}
             {editProduct && <EditProduct product={editProduct} />}
+            <AddProductModal productId={products.length > 0 ? products[products.length - 1].id + 1 : 1} setProducts={setProducts} />
         </section>
     );
 };

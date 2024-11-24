@@ -81,4 +81,14 @@ router
     .route("/admin/updateProduct/:id")
     .put(adminController.updateProduct)
 
+router
+    .route("/admin/addProduct")
+    .post(adminController.addProduct);
+
+router
+    .route("/admin/deleteNewProductImage")
+    .post(adminController.deleteNewProductImage);
+
+
+
 module.exports = router;
