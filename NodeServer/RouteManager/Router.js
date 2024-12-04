@@ -97,4 +97,8 @@ router
     .route("/admin/updateStatus")
     .patch(adminController.updateStatus)
 
+router 
+    .route("/admin/getCounterOfPendingOrders")
+    .get(adminController.getCounterOfPendingOrders)
+
 module.exports = router;

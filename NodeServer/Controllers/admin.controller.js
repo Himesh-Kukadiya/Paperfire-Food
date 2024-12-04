@@ -296,7 +296,16 @@ const updateStatus = (req, res) => {
         });
 };
 
-
+const getCounterOfPendingOrders = (req, res) => {
+    rentsModel.countDocuments({ status: "Pending" })
+    .then((count) => {
+        res.status(200).json({ count });
+    })
+    .catch((err) => {
+        console.error("Error while counting pending orders:", err);
+        res.status(500).json({ message: "Error while counting pending orders", error: err.message });
+    });
+}
 
 module.exports = {
     getProducts,
@@ -309,4 +318,5 @@ module.exports = {
     addProduct,
     getRents,
     updateStatus,
+    getCounterOfPendingOrders,
 }
