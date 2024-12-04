@@ -89,6 +89,12 @@ router
     .route("/admin/deleteNewProductImage")
     .post(adminController.deleteNewProductImage);
 
+router
+    .route("/admin/getRents")
+    .get(adminController.getRents)
 
+router
+    .route("/admin/updateStatus")
+    .patch(adminController.updateStatus)
 
 module.exports = router;

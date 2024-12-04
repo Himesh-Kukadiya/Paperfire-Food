@@ -5,6 +5,7 @@ import Header from './Components/Header'
 import SideNavbar from './Components/SideNavbar';
 import Dashboard from './Components/Dashboard';
 import Products from './Components/Products';
+import Orders from './Components/Orders';
 
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -15,7 +16,7 @@ function App() {
 
   return (
     <div className='grid-container'>
-      <SideNavbar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
+      <SideNavbar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} newOrderCount={3} />
       <BrowserRouter>
         <Routes>
           <Route path='/' element={
@@ -30,6 +31,12 @@ function App() {
               <Products />
             </>
           }/>
+          <Route path='/Orders&Rents' element={
+            <>
+              <Header title={"ORDERS & RENTS"} OpenSidebar={OpenSidebar}/>
+              <Orders />
+            </>
+          } />
         </Routes>
       </BrowserRouter>
     </div>

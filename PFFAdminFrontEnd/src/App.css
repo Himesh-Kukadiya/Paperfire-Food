@@ -124,6 +124,23 @@ body {
   position: absolute;
   z-index: 12 !important;
 }
+
+.notification-badge {
+  position: absolute;
+  top: 8px;
+  right: 50px;
+  background-color: green;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  padding: 5px 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 /* End Sidebar  */
 
 /* Dashboard start */
@@ -362,6 +379,9 @@ select.form-control option {
   width: 50px;
 }
 
+/* start Orders & renst section */
+
+/* end Orders & rents section */
 
 /* responsive Design */
 @media screen and (max-width: 992px) {
