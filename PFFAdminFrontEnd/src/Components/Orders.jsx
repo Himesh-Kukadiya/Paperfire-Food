@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { BsPlus, BsTrashFill, BsPencilFill, BsClockHistory, BsXCircle, BsCheckCircle } from "react-icons/bs";
+import { BsPlus, BsTrashFill, BsPencilFill, BsClockHistory, BsXCircle, BsCheckCircle, BsSearch } from "react-icons/bs";
 import axios from "axios";
 const Orders = () => {
     const [refresh, setRefresh] = useState(false);
     const [rents, setRents] = useState([]);
     const [filteredRents, setFilteredRents] = useState([]);
+    const [dates, setDates] = useState({});
 
     useEffect(() => {
         axios.get('http://localhost:7575/api/admin/getRents')
@@ -70,19 +71,31 @@ const Orders = () => {
         return filteredData;
     };
 
-
     return (
         <section id="product" className="products-section">
             <div className="container-fluid">
                 <div className="d-flex justify-content-start mb-4">
                     <select className="dropdown btn btn-light dropdown-toggle" name="filterOnTime" onChange={handleFilterOnTime} id="">
-                        <option className="dropdown-item" value="">-Select-</option>
+                        <option className="dropdown-item" value="">Select Time</option>
                         <option className="dropdown-item" value="today">Today</option>
                         <option className="dropdown-item" value="week">This Week</option>
                         <option className="dropdown-item" value="month">This Month</option>
                         <option className="dropdown-item" value="year">This Year</option>
                         <option className="dropdown-item" value="all">All Rents</option>
                     </select>
+
+                    <div className="ml-3 d-flex align-items-center justify-content-center">
+                            <label className="font-weight-bold">From: </label>
+                            <input type="date" name="from" className="form-control text-light bg-transparent ml-2"
+                            onChange={(e)=> {setDates({...dates, from: e.target.value})}}/>
+
+                            <label className="font-weight-bold ml-2">To: </label>
+                            <input type="date" name="to" className="form-control text-light bg-transparent ml-2"
+                            onChange={(e)=> {setDates({...dates, to: e.target.value})}}/>
+
+                            <button className="btn btn-light ml-2"
+                            onClick={() => {setFilteredRents(filterData(dates.from, dates.to))}}> <BsSearch /></button>
+                    </div>
                 </div>
                 <div className="table-container" style={{ overflowX: "auto" }}>
                     <table className="table table-striped text-light table-hover table-dark table-bordered">

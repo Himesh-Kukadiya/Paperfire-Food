@@ -380,7 +380,10 @@ select.form-control option {
 }
 
 /* start Orders & renst section */
-
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
 /* end Orders & rents section */
 
 /* responsive Design */
