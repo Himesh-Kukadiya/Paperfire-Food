@@ -4,11 +4,13 @@ import axios from "axios";
 const Orders = () => {
     const [refresh, setRefresh] = useState(false);
     const [rents, setRents] = useState([]);
+    const [filteredRents, setFilteredRents] = useState([]);
 
     useEffect(() => {
         axios.get('http://localhost:7575/api/admin/getRents')
             .then(response => {
                 setRents(response.data)
+                setFilteredRents(response.data)
             })
             .catch(error => console.error('Error:', error));
     }, [refresh])
@@ -19,12 +21,68 @@ const Orders = () => {
             setRefresh(!refresh)
         })
         .catch(error => console.error('Error:', error));
+    } 
+    
+
+    const handleFilterOnTime = (e) => {
+        let val = e.target.value;
+
+        const today = new Date();
+        let from, to;
+
+        if(val === "today") {
+            from = to = today.toISOString().split("T")[0];
+            setFilteredRents(filterData(from, to))
+        }
+        else if(val === "week") {
+            const weekStart = new Date(today.setDate(today.getDate() - today.getDay()));
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 6);
+
+            from = weekStart.toISOString().split("T")[0];
+            to = weekEnd.toISOString().split("T")[0];
+            
+            setFilteredRents(filterData(from, to))
+        }
+        else if(val === "month") {
+            from = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split("T")[0];
+            to = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().split("T")[0];
+
+            setFilteredRents(filterData(from, to))
+        }
+        else if(val === "year") {
+            from = new Date(today.getFullYear(), 0, 1).toISOString().split("T")[0];
+            to = new Date(today.getFullYear(), 11, 31).toISOString().split("T")[0];
+
+            setFilteredRents(filterData(from, to))
+        }
+        else if(val === "all") {
+            setFilteredRents(rents);
+        }
     }
+
+    const filterData = (from, to) => {
+        const filteredData = rents.filter(rent => 
+            rent.products.some(product => 
+                new Date(product.fromDate) >= new Date(from) && new Date(product.fromDate) <= new Date(to) || new Date(product.toDate) >= new Date(from) && new Date(product.toDate) <= new Date(to)
+            )
+        );
+        return filteredData;
+    };
+
 
     return (
         <section id="product" className="products-section">
             <div className="container-fluid">
                 <div className="d-flex justify-content-start mb-4">
+                    <select className="dropdown btn btn-light dropdown-toggle" name="filterOnTime" onChange={handleFilterOnTime} id="">
+                        <option className="dropdown-item" value="">-Select-</option>
+                        <option className="dropdown-item" value="today">Today</option>
+                        <option className="dropdown-item" value="week">This Week</option>
+                        <option className="dropdown-item" value="month">This Month</option>
+                        <option className="dropdown-item" value="year">This Year</option>
+                        <option className="dropdown-item" value="all">All Rents</option>
+                    </select>
                 </div>
                 <div className="table-container" style={{ overflowX: "auto" }}>
                     <table className="table table-striped text-light table-hover table-dark table-bordered">
@@ -40,7 +98,8 @@ const Orders = () => {
                             </tr>
                         </thead>
                         <tbody className="table-body">
-                            {rents.map((rent, index) => (
+                            {filteredRents.length > 0 
+                            ? filteredRents.map((rent, index) => (
                                 <tr key={rent.id + index}>
                                     <td className="text-center">{index + 1}</td>
                                     <td className="text-left">
@@ -131,9 +190,12 @@ const Orders = () => {
                                             </>
                                         )}
                                     </td>
-
+                                </tr>))
+                            : (
+                                <tr>
+                                    <td colSpan={9}>No rents found</td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
                 </div>
