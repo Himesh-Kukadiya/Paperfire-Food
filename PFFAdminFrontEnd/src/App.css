@@ -396,6 +396,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
   cursor: pointer;
 }
+/* end Orders & rents section */
 
 /* loader */
 .loader {
@@ -448,8 +449,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     transform: rotate(360deg);
   }
 }
+/* end loadr */
 
-/* end Orders & rents section */
+.user-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 1px 1px 10px #fff;
+}
 
 /* responsive Design */
 @media screen and (max-width: 992px) {

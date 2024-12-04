@@ -109,4 +109,8 @@ router
     .route("/admin/getCounterOfPendingOrders")
     .get(adminController.getCounterOfPendingOrders)
 
+router 
+    .route("/admin/getUsers")
+    .get(adminController.getUsers)
+
 module.exports = router;

@@ -7,6 +7,7 @@ import Dashboard from './Components/Dashboard';
 import Products from './Components/Products';
 import Orders from './Components/Orders';
 import axios from 'axios';
+import Users from './Components/Users';
 
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -41,6 +42,12 @@ function App() {
             <>
               <Header title={"ORDERS & RENTS"} OpenSidebar={OpenSidebar}/>
               <Orders />
+            </>
+          } />
+          <Route path="/users" element={
+            <>
+              <Header title="System Users" OpenSidebar={OpenSidebar} />
+              <Users />
             </>
           } />
         </Routes>

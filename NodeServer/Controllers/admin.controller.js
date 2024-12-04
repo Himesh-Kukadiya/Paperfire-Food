@@ -70,7 +70,7 @@ const getGraphData = async (req, res) => {
         
         graphData.barGraph = barGraphData;
         graphData.lineChart = lineChartData;
-        
+
         // Send response
         res.status(200).json(graphData);
     } catch (err) {
@@ -377,6 +377,19 @@ const getCounterOfPendingOrders = (req, res) => {
     });
 }
 
+const getUsers = (req, res) => {
+    usersModel.find({})
+    .then(users => {
+        if(!users) return res.status(404).json({ message: "No any user found"});
+
+        res.status(200).json(users);
+    })
+    .catch(err => {
+        console.error("Error while fetching users:", err);
+        res.status(500).json({ message: "Error while fetching users", error: err.message });
+    });
+}
+
 module.exports = {
     getCounters,
     getGraphData,
@@ -391,4 +404,5 @@ module.exports = {
     getRents,
     updateStatus,
     getCounterOfPendingOrders,
+    getUsers,
 }

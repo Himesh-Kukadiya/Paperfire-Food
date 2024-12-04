@@ -39,7 +39,7 @@ function SideNavbar({ openSidebarToggle, OpenSidebar, newOrderCount }) {
                     </li>
 
                     <li className="sidebar-list-item">
-                        <a href="#">
+                        <a href="/users">
                             <BsPeopleFill className="icon" /> Users
                         </a>
                     </li>
