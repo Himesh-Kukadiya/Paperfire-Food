@@ -10,6 +10,76 @@ const getFormateDate = require("../Functions/getFormateDate");
 const usersModel = require("../Models/users.model");
 const paymentModel = require("../Models/payment.model")
 
+const getCounters = async(req, res) => {
+    try {
+        const counter = {totProducts: 0, totRents: 0, totUsers: 0, totRevenue: 0};
+        counter.totProducts = await productsModel.countDocuments();
+        counter.totUsers = await usersModel.countDocuments();
+        const rents = await rentsModel.find({status: "Deleverd"}, "quantity")
+        rents.forEach(rent => {
+            rent.quantity.forEach(qty => {
+                counter.totRents += qty;
+            });
+        })
+        const allRents = await rentsModel.find({}, "total fromDate toDate")
+        allRents.forEach(rent => {
+            rent.total.forEach(tot => counter.totRevenue += tot)
+        })
+        counter.totalRents = await rentsModel.countDocuments();
+
+        res.status(200).send(counter);
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error while fetching counters", error: err.message });
+    }
+}
+
+const getGraphData = async (req, res) => {
+    try {
+        const graphData = { barGraph: {}, lineChart: {} };
+
+        const getDistinctMonths = require("../Functions/getDistinctMonths");
+        const rents = await rentsModel.find({status: { $ne: "Rejected" }});
+
+        const months = getDistinctMonths(rents);
+
+        const barGraphData = months.map(month => ({
+            name: month,
+            totalRevenue: 0,
+        }));
+        rents.forEach(rent => {
+            rent.fromDate.forEach((date, index) => {
+                const month = new Date(date).toLocaleString("default", { month: "short" });
+                const monthData = barGraphData.find(m => m.name === month);
+                if (monthData) {
+                    monthData.totalRevenue += rent.rent[index] || 0;
+                }
+            });
+        });
+
+        const lineChartData = months.map((month, index) => {
+            const cumulativeRent = barGraphData
+                .slice(0, index + 1)
+                .reduce((sum, data) => sum + data.totalRevenue, 0);
+            return {
+                name: month,
+                cumulativeRent,
+            };
+        });
+        
+        graphData.barGraph = barGraphData;
+        graphData.lineChart = lineChartData;
+        
+        // Send response
+        res.status(200).json(graphData);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error while fetching graph data", error: err.message });
+    }
+};
+
+
 const getProducts = (req, res) => {
     productModel.find().sort({ id: 1 })
         .then((products) => {
@@ -308,6 +378,8 @@ const getCounterOfPendingOrders = (req, res) => {
 }
 
 module.exports = {
+    getCounters,
+    getGraphData,
     getProducts,
     updateProduct,
     deleteProduct,

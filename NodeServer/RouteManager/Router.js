@@ -70,6 +70,14 @@ router
 
 const adminController = require("../Controllers/admin.controller");
 router 
+    .route("/admin/getCounters")
+    .get(adminController.getCounters)
+
+router 
+    .route("/admin/getGraphData")
+    .get(adminController.getGraphData)
+
+router 
     .route("/admin/getProducts")
     .get(adminController.getProducts)
 
