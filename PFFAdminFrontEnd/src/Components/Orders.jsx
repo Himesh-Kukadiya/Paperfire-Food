@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { BsPlus, BsTrashFill, BsPencilFill, BsClockHistory, BsXCircle, BsCheckCircle, BsSearch } from "react-icons/bs";
 import axios from "axios";
+import {useNavigate} from "react-router-dom"
 const Orders = () => {
+    const navigate = useNavigate()
     const [refresh, setRefresh] = useState(false);
     const [rents, setRents] = useState([]);
     const [filteredRents, setFilteredRents] = useState([]);
     const [detailedFilterRents, setDetailedFilterRents] = useState([]);
     const [dates, setDates] = useState({});
 
+    useEffect(() => {
+        if(localStorage.getItem("PFFAdminData") === null) {
+            navigate("/");
+        }
+    }, [])
     useEffect(() => {
         setDetailedFilterRents(filteredRents)
     }, [filteredRents])

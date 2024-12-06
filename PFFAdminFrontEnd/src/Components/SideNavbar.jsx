@@ -58,7 +58,10 @@ function SideNavbar({ openSidebarToggle, OpenSidebar, newOrderCount }) {
                         </a>
                     </li>
                     <li className="sidebar-list-item">
-                        <a href="#">
+                        <a href="#" onClick={()=>{
+                                localStorage.removeItem("PFFAdminData");
+                                window.location.reload();
+                            }}>
                             <BsBoxArrowRight className="icon" /> Logout
                         </a>
                     </li>

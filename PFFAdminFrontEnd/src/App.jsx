@@ -8,6 +8,7 @@ import Products from './Components/Products';
 import Orders from './Components/Orders';
 import axios from 'axios';
 import Users from './Components/Users';
+import Login from './Components/Login';
 
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -23,29 +24,37 @@ function App() {
 
   return (
     <div className='grid-container'>
-      <SideNavbar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} newOrderCount={newPendingOrdersCnt} />
       <BrowserRouter>
         <Routes>
           <Route path='/' element={
             <>
+              <Login />
+            </>
+          }/>
+          <Route path='/dashboard/:aId' element={
+            <>
+              <SideNavbar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} newOrderCount={newPendingOrdersCnt} />
               <Header title={"DASHBOARD"} OpenSidebar={OpenSidebar}/>
               <Dashboard />
             </>
           }/>
-          <Route path='/Products' element={
+          <Route path='/Products/:aId' element={
             <>
+              <SideNavbar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} newOrderCount={newPendingOrdersCnt} />
               <Header title={"PRODUCTS"} OpenSidebar={OpenSidebar}/>
               <Products />
             </>
           }/>
-          <Route path='/Orders&Rents' element={
+          <Route path='/Orders&Rents/:aId' element={
             <>
+              <SideNavbar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} newOrderCount={newPendingOrdersCnt} />
               <Header title={"ORDERS & RENTS"} OpenSidebar={OpenSidebar}/>
               <Orders />
             </>
           } />
-          <Route path="/users" element={
+          <Route path="/users/:aId" element={
             <>
+              <SideNavbar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} newOrderCount={newPendingOrdersCnt} />
               <Header title="System Users" OpenSidebar={OpenSidebar} />
               <Users />
             </>

@@ -3,12 +3,21 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import EditProduct from './BootstrapModal/Edit.Product';
 import AddProductModal from './BootstrapModal/Add.Product.Modal';
+import {useNavigate} from "react-router-dom"
 
 const Products = () => {
+    const navigate = useNavigate();
+
     const [products, setProducts] = useState([]);
     const [editProduct, setEditProduct] = useState(null); // Initialize as `null`
     const openEditProductModal = useRef(null);
 
+    useEffect(() => {
+        if(localStorage.getItem("PFFAdminData") === null) {
+            navigate("/");
+        }
+    }, [])
+    
     // Fetch products
     const getProducts = () => {
         axios

@@ -9,6 +9,7 @@ const productsModel = require("../Models/product.model");
 const getFormateDate = require("../Functions/getFormateDate");
 const usersModel = require("../Models/users.model");
 const paymentModel = require("../Models/payment.model")
+const adminModel = require("../Models/admin.model");
 
 const getCounters = async(req, res) => {
     try {
@@ -390,6 +391,23 @@ const getUsers = (req, res) => {
     });
 }
 
+const adminLogin = (req, res) => {
+    const {email, password} = req.body;
+    adminModel.findOne({email: email, password: password})
+    .then((admin) => {
+        if(!admin) return res.status(401).json({ message: "Invalid credentials"});
+        // i want to delete password from admin for security reasons
+        const adminData = admin.toObject();
+        delete adminData.password;
+        delete adminData.__v;
+        res.status(200).json({ message: "login successful", data: adminData});
+    })
+    .catch((err) => {
+        console.error("Error while admin login:", err);
+        res.status(500).json({ message: "Error while admin login", error: err.message });
+    });
+}
+
 module.exports = {
     getCounters,
     getGraphData,
@@ -405,4 +423,5 @@ module.exports = {
     updateStatus,
     getCounterOfPendingOrders,
     getUsers,
+    adminLogin,
 }

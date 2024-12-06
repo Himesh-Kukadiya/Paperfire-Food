@@ -1,0 +1,149 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+
+.LoginBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-width: 100vw;
+    background: url('../../assets/login-bg.jpg') no-repeat center center/cover;
+}
+
+main {
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid wheat;
+    background-color: transparent;
+    backdrop-filter: blur(25px);
+    position: relative;
+}
+
+main header {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 25px 2px 25px;
+    background-color: white;
+    border-radius: 0 0 10px 10px;
+}
+
+main form {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+main input[type="text"],
+input[type="number"],
+input[type="password"], 
+input[type="password"] {
+    padding: 7px;
+    border: 2px solid white;
+    width: 100%;
+    border-radius: 10px;
+    outline: none;
+    background-color: transparent;
+    color: white;
+}
+
+main .form_wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+main label {
+    position: absolute;
+    left: 10px;
+    font-size: 12px;
+    color: white;
+    transition: .2s;
+}
+
+main i {
+    position: absolute;
+    right: 10px;
+    color: white;
+    font-size: 15px !important;
+}
+
+main .remember_box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+main .remember {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: white;
+}
+
+main a {
+    color: white;
+}
+
+main button {
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+main input:valid+label,
+input:focus+label {
+    background-color: white;
+    color: black;
+    transform: translate(10px, -20px);
+    padding: 3px 12px;
+    font-size: 8px;
+    border-radius: 4px;
+}
+
+main .new_account {
+    text-align: center;
+    color: lightgray;
+}
+
+main header::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: -30px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    box-shadow: 15px 0 0 0 white;
+    border-top-right-radius: 50%;
+}
+
+main header::after {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: -30px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    box-shadow: -15px 0 0 0 white;
+    border-top-left-radius: 50%;
+}
+
+main .form_wrapper .errors {
+    color: rgb(252, 95, 95);
+}
+
+main .form_wrapper .success {
+    color: rgb(73, 226, 73);
+}

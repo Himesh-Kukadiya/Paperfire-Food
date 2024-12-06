@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react"
 import axios from "axios";
+import {useNavigate} from "react-router-dom"
 
 const Users = () => {
+    const navigate = useNavigate();
+
     const [users, setUsers] = useState([]);
 
+    useEffect(() => {
+        if(localStorage.getItem("PFFAdminData") === null) {
+            navigate("/");
+        }
+    }, [])
+    
     useEffect(() => {
         axios.get("http://localhost:7575/api/admin/getUsers")
         .then(response => {

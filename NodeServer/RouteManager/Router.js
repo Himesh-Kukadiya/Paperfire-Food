@@ -113,4 +113,8 @@ router
     .route("/admin/getUsers")
     .get(adminController.getUsers)
 
+router 
+    .route("/admin/adminLogin")
+    .post(adminController.adminLogin)
+
 module.exports = router;
