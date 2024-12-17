@@ -1,7 +1,13 @@
 import { BsGrid1X2Fill, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsMenuButtonWideFill, BsFillPersonFill, BsBoxArrowRight, } from 'react-icons/bs';
 import PropTypes from 'prop-types';
-
+import { useNavigate } from 'react-router-dom';
 function SideNavbar({ openSidebarToggle, OpenSidebar, newOrderCount }) {
+    const navigate = useNavigate();
+
+    const adminData = JSON.parse(localStorage.getItem("PFFAdminData"));
+    if (adminData == null) {
+        navigate("/");
+    }
     return (
         <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
             <div className="sidebar-title">
@@ -18,19 +24,19 @@ function SideNavbar({ openSidebarToggle, OpenSidebar, newOrderCount }) {
             <div className="menu-box">
                 <ul className="sidebar-list">
                     <li className="sidebar-list-item">
-                        <a href="/">
+                        <a href={`/${adminData._id}`}>
                             <BsGrid1X2Fill className="icon" /> Dashboard
                         </a>
                     </li>
 
                     <li className="sidebar-list-item">
-                        <a href="/Products">
+                        <a href={`/Products/${adminData._id}`}>
                             <BsFillArchiveFill className="icon" /> Products
                         </a>
                     </li>
 
                     <li className="sidebar-list-item position-relative">
-                        <a href="/Orders&Rents">
+                        <a href={`/Orders&Rents/${adminData._id}`}>
                             <BsFillGrid3X3GapFill className="icon" /> Orders & Rentals
                             {newOrderCount > 0 && (
                                 <span className="notification-badge">{newOrderCount}</span>
@@ -39,14 +45,8 @@ function SideNavbar({ openSidebarToggle, OpenSidebar, newOrderCount }) {
                     </li>
 
                     <li className="sidebar-list-item">
-                        <a href="/users">
+                        <a href={`/users/${adminData._id}`}>
                             <BsPeopleFill className="icon" /> Users
-                        </a>
-                    </li>
-
-                    <li className="sidebar-list-item">
-                        <a href="#">
-                            <BsMenuButtonWideFill className="icon" /> Reports
                         </a>
                     </li>
                 </ul>
