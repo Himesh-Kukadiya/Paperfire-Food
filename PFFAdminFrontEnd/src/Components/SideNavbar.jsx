@@ -24,7 +24,7 @@ function SideNavbar({ openSidebarToggle, OpenSidebar, newOrderCount }) {
             <div className="menu-box">
                 <ul className="sidebar-list">
                     <li className="sidebar-list-item">
-                        <a href={`/${adminData._id}`}>
+                        <a href={`/dashboard/${adminData._id}`}>
                             <BsGrid1X2Fill className="icon" /> Dashboard
                         </a>
                     </li>

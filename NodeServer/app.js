@@ -9,7 +9,7 @@ env.config();
 
 // MongoDB connection...
 const connect = () => {
-    mongoose.connect(`${process.env.DB_URL}${process.env.DB_NAME}`)
+    mongoose.connect(`${process.env.MONGO_URL}`)
     .then(() => console.log(`Connected to MongoDB ${process.env.DB_NAME}`))
     .catch(err => console.error(`Failed to connect to MongoDB: ${err}`));
 }
